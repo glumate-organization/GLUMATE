@@ -70,7 +70,19 @@
 - 보호 경로 — 수정 전 확인: `astro.config.mjs`, `package.json`, `.github/workflows/**`,
   `src/lib/company.ts`(법적 기재사항), `public/CNAME`.
 
-## 6. 알려진 상태
+## 6. 내부 링크는 반드시 url()
+
+지금 사이트는 `github.io/GLUMATE/` 하위 경로로 서빙된다. `href="/about"` 처럼 하드코딩하면
+CSS·이미지·링크가 전부 404 난다. **모든 내부 경로는 `src/lib/url.ts` 의 `url()` 을 거친다.**
+
+```astro
+import { url } from '../lib/url';
+<a href={url('/technology')}>기술</a>
+```
+
+커스텀 도메인(glumate.org)으로 옮기는 절차는 README 「배포」 참고.
+
+## 7. 알려진 상태
 
 - 국세청 조회 API(odcloud)가 간헐적으로 503을 낸다. 실패하면 `{ok:false}` 폴백 → 배지만 빠지고
   빌드는 정상. 이건 버그가 아니다.

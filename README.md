@@ -106,7 +106,29 @@ src/
 ## 배포
 
 `.github/workflows/deploy.yml` — `main` 푸시 시 빌드 후 GitHub Pages에 배포한다.
-`public/CNAME`이 `glumate.org`를 가리킨다.
+리포지토리: `glumate-organization/GLUMATE`
+
+### 지금 서빙되는 주소
+
+<https://glumate-organization.github.io/GLUMATE/> — 저장소 하위 경로다.
+그래서 워크플로가 `BASE_PATH=/GLUMATE`를 주입하고, 모든 내부 링크는 `src/lib/url.ts`의
+`url()`을 거쳐 base가 붙는다. **내부 링크에 `href="/about"` 같은 하드코딩을 쓰면 깨진다.**
+
+### glumate.org로 옮길 때 (2단계)
+
+현재 `glumate.org`의 DNS는 Squarespace를 가리키고 있다(“곧 출시 예정” 파킹 페이지).
+GitHub Pages로 옮기려면:
+
+1. **DNS** (도메인 등록처에서):
+   - `glumate.org` A 레코드 4개 → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - `www.glumate.org` CNAME → `glumate-organization.github.io`
+   - 기존 Squarespace A/CNAME 레코드는 제거
+2. **리포지토리**:
+   - `public/CNAME` 파일을 만들고 내용은 `glumate.org` 한 줄
+   - `.github/workflows/deploy.yml`에서 `SITE_URL` / `BASE_PATH` 두 줄을 삭제
+     (기본값이 `https://glumate.org` + base `/`)
+
+DNS 전파 후 Settings → Pages에서 HTTPS 인증서가 발급되면 끝난다.
 
 ### 환경변수
 
