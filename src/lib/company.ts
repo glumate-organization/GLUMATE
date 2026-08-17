@@ -33,6 +33,8 @@ export const company = {
   addressShort: '대전광역시 대덕구 한남로 70, B203호',
   addressBuilding: '한남대학교 캠퍼스혁신파크 B동 203호',
 
+  // 메일은 Google Workspace 로 제공받는 주소다. glumate.org 도메인 자체는
+  // 회사 소유가 아니므로 웹사이트 주소로 쓰지 않는다. 웹은 glumate.co.kr 하나뿐.
   email: 'glumate@glumate.org',
   site: 'https://glumate.co.kr',
 } as const;

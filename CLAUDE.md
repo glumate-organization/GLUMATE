@@ -1,6 +1,6 @@
 # 글루메이트 기업 사이트 — Claude Code 가이드
 
-글루메이트(GLUMATE) 회사 웹사이트. Astro 정적 사이트 → GitHub Pages(glumate.org).
+글루메이트(GLUMATE) 회사 웹사이트. Astro 정적 사이트 → GitHub Pages(glumate.co.kr).
 제품 사이트(글루밍, gluming.app)는 `../Gluming/docs`에 따로 있다. **이 리포에서 그쪽을 건드리지 않는다.**
 
 전체 구조·명령어·모션 API는 `README.md`에 있다. 이 파일은 작업할 때의 판단 기준만 담는다.
@@ -84,6 +84,10 @@ import { url } from '../lib/url';
 배포 주소를 바꿀 땐 `public/CNAME` 과 워크플로의 `SITE_URL`/`BASE_PATH` 를 함께 본다.
 
 ## 7. 알려진 상태
+
+- **도메인**: 웹사이트는 `glumate.co.kr` 하나다. `glumate.org` 는 회사 소유 도메인이 아니라
+  Google Workspace 로 메일(`glumate@glumate.org`)만 받는 주소다. 사이트 URL·canonical·
+  sitemap 등에 `.org` 를 쓰지 않는다.
 
 - 국세청 조회 API(odcloud)가 간헐적으로 503을 낸다. 실패하면 `{ok:false}` 폴백 → 배지만 빠지고
   빌드는 정상. 이건 버그가 아니다.

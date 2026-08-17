@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://glumate.org/sitemap.xml
+Sitemap: https://glumate.co.kr/sitemap.xml

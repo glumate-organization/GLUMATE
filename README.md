@@ -1,4 +1,4 @@
-# 글루메이트 기업 사이트 (glumate.org)
+# 글루메이트 기업 사이트 (glumate.co.kr)
 
 글루메이트(GLUMATE)의 회사 웹사이트. **Astro** 정적 사이트로 빌드해 **GitHub Pages**에 배포한다.
 제품(글루밍) 사이트는 별도 리포(`Gluming/docs` → gluming.app)에 있다.
