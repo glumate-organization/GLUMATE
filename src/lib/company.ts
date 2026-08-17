@@ -34,7 +34,7 @@ export const company = {
   addressBuilding: '한남대학교 캠퍼스혁신파크 B동 203호',
 
   email: 'glumate@glumate.org',
-  site: 'https://glumate.org',
+  site: 'https://glumate.co.kr',
 } as const;
 
 /** 회사 정보 표에 그대로 렌더링되는 행 (기업 신뢰 정보) */

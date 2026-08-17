@@ -108,27 +108,21 @@ src/
 `.github/workflows/deploy.yml` — `main` 푸시 시 빌드 후 GitHub Pages에 배포한다.
 리포지토리: `glumate-organization/GLUMATE`
 
-### 지금 서빙되는 주소
+### 서빙 주소
 
-<https://glumate-organization.github.io/GLUMATE/> — 저장소 하위 경로다.
-그래서 워크플로가 `BASE_PATH=/GLUMATE`를 주입하고, 모든 내부 링크는 `src/lib/url.ts`의
-`url()`을 거쳐 base가 붙는다. **내부 링크에 `href="/about"` 같은 하드코딩을 쓰면 깨진다.**
+<https://glumate.co.kr> — GitHub Pages 커스텀 도메인 (`public/CNAME`).
+DNS A 레코드가 이미 GitHub Pages(`185.199.108~111.153`)를 가리키고 있다.
 
-### glumate.org로 옮길 때 (2단계)
+커스텀 도메인이라 사이트는 **루트(`/`)**에 올라간다. 그래서 `astro.config.mjs`의
+기본값(`site: https://glumate.co.kr`, `base: '/'`)을 그대로 쓴다.
 
-현재 `glumate.org`의 DNS는 Squarespace를 가리키고 있다(“곧 출시 예정” 파킹 페이지).
-GitHub Pages로 옮기려면:
+저장소 하위 경로(`github.io/GLUMATE/`)로 임시 배포해야 할 일이 생기면 빌드 시
+`SITE_URL`/`BASE_PATH`만 넘기면 된다. 내부 링크는 전부 `src/lib/url.ts`의 `url()`을
+거치므로 base가 자동으로 붙는다. **`href="/about"` 같은 하드코딩은 쓰지 않는다.**
 
-1. **DNS** (도메인 등록처에서):
-   - `glumate.org` A 레코드 4개 → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `www.glumate.org` CNAME → `glumate-organization.github.io`
-   - 기존 Squarespace A/CNAME 레코드는 제거
-2. **리포지토리**:
-   - `public/CNAME` 파일을 만들고 내용은 `glumate.org` 한 줄
-   - `.github/workflows/deploy.yml`에서 `SITE_URL` / `BASE_PATH` 두 줄을 삭제
-     (기본값이 `https://glumate.org` + base `/`)
-
-DNS 전파 후 Settings → Pages에서 HTTPS 인증서가 발급되면 끝난다.
+```bash
+SITE_URL=https://glumate-organization.github.io BASE_PATH=/GLUMATE npm run build
+```
 
 ### 환경변수
 

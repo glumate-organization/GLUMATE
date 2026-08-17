@@ -72,15 +72,16 @@
 
 ## 6. 내부 링크는 반드시 url()
 
-지금 사이트는 `github.io/GLUMATE/` 하위 경로로 서빙된다. `href="/about"` 처럼 하드코딩하면
-CSS·이미지·링크가 전부 404 난다. **모든 내부 경로는 `src/lib/url.ts` 의 `url()` 을 거친다.**
+사이트는 커스텀 도메인 <https://glumate.co.kr> 루트에 올라간다. 다만 저장소 하위 경로
+(`github.io/GLUMATE/`)로 배포될 수도 있어, **모든 내부 경로는 `src/lib/url.ts` 의
+`url()` 을 거친다.** `href="/about"` 하드코딩은 base가 붙는 순간 전부 404 난다.
 
 ```astro
 import { url } from '../lib/url';
 <a href={url('/technology')}>기술</a>
 ```
 
-커스텀 도메인(glumate.org)으로 옮기는 절차는 README 「배포」 참고.
+배포 주소를 바꿀 땐 `public/CNAME` 과 워크플로의 `SITE_URL`/`BASE_PATH` 를 함께 본다.
 
 ## 7. 알려진 상태
 
