@@ -262,17 +262,17 @@ const gluming = products[0];
           </div>
           <p class="product-tagline">{gluming.tagline}</p>
           <p class="product-summary">{gluming.summary}</p>
-          <ul class="product-points">
-            {gluming.points.map((p) => <li>{p}</li>)}
-          </ul>
+          <p class="product-pointer">
+            기능과 사용 방법은 제품 사이트 <strong>gluming.app</strong>에서 확인하실 수 있습니다.
+          </p>
           <div class="product-actions">
-            <a href={url('/products')} class="btn btn-primary">제품 자세히 보기</a>
             <a
               href={links.glumingSite}
-              class="btn btn-ghost"
+              class="btn btn-primary"
               target="_blank"
-              rel="noopener noreferrer">글루밍 웹사이트 ↗</a
+              rel="noopener noreferrer">gluming.app 바로가기 ↗</a
             >
+            <a href={url('/products')} class="btn btn-ghost">제품 개요</a>
           </div>
         </div>
 
@@ -729,28 +729,15 @@ const gluming = products[0];
     font-size: 15.5px;
     line-height: 1.8;
   }
-  .product-points {
-    margin: var(--sp-5) 0 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 10px;
-  }
-  .product-points li {
-    position: relative;
-    padding-left: 22px;
+  .product-pointer {
+    margin-top: var(--sp-5);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--rule);
     color: var(--text);
     font-size: 15px;
   }
-  .product-points li::before {
-    content: "";
-    position: absolute;
-    left: 2px;
-    top: 11px;
-    width: 8px;
-    height: 8px;
-    border: 1.5px solid var(--navy);
-    border-radius: 2px;
+  .product-pointer strong {
+    color: var(--navy);
   }
   .product-actions {
     margin-top: var(--sp-7);
