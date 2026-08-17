@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { company } from '../lib/company';
+import { url } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -14,10 +15,13 @@ interface Props {
 const {
   title = '글루메이트 (GLUMATE) — 더 많은 사람들이 건강하게 살 수 있는 세상을',
   description = '글루메이트는 건강 데이터를 일상의 행동으로 잇는 소프트웨어를 만듭니다. 더 많은 사람들이 건강하게 살 수 있는 세상을 만들기 위해 최선을 다합니다. 첫 번째 제품은 웰니스 앱 글루밍입니다.',
-  ogImage = `${company.site}/og.png`,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? company.site).href;
+// 배포 위치(커스텀 도메인 / 저장소 경로)에 따라 절대 URL이 달라진다.
+// Astro.site 를 기준으로 잡고, 없을 때만 company.site 로 떨어진다.
+const origin = Astro.site ?? new URL(company.site);
+const canonical = new URL(Astro.url.pathname, origin).href;
+const { ogImage = new URL(url('/og.png'), origin).href } = Astro.props;
 
 // 검색엔진에 회사 정보를 구조화해 전달한다 (신뢰 정보의 기계 판독 가능한 사본).
 const orgJsonLd = {
@@ -25,8 +29,8 @@ const orgJsonLd = {
   '@type': 'Organization',
   name: `${company.nameKo} (${company.nameEn})`,
   alternateName: company.nameEn,
-  url: company.site,
-  logo: `${company.site}/favicon.png`,
+  url: new URL(url('/'), origin).href,
+  logo: new URL(url('/favicon.png'), origin).href,
   email: company.email,
   slogan: company.slogan,
   foundingDate: company.foundedISO,
@@ -52,8 +56,8 @@ const orgJsonLd = {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#004294" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href={url('/favicon.png')} />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
 
     <!-- Open Graph / 공유 메타데이터 (자기 도메인 절대 URL — 렌더링 의존 아님) -->
     <meta property="og:type" content="website" />

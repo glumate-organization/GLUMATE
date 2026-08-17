@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { logos } from '../lib/assets';
 import { company } from '../lib/company';
 import { links } from '../lib/links';
+import { url } from '../lib/url';
 import { getBusinessStatus } from '../lib/business';
 
 const year = new Date().getFullYear();
@@ -50,7 +51,7 @@ const bizLine = [
 <footer class="footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <a href="/" class="brand" aria-label="글루메이트 홈">
+      <a href={url('/')} class="brand" aria-label="글루메이트 홈">
         <Image
           src={logos.horizontalWhite}
           alt="글루메이트 GLUMATE"
@@ -70,7 +71,7 @@ const bizLine = [
             {col.links.map((l) => (
               <li>
                 <a
-                  href={l.href}
+                  href={l.href.startsWith('http') ? l.href : url(l.href)}
                   {...l.href.startsWith('http')
                     ? { target: '_blank', rel: 'noopener noreferrer' }
                     : {}}

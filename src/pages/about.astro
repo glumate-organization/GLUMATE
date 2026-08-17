@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { url } from '../lib/url';
 import Layout from '../layouts/Layout.astro';
 import SectionHead from '../components/SectionHead.astro';
 import { logos } from '../lib/assets';
@@ -209,7 +210,7 @@ const history = [
         함께하는 곳
         <Fragment slot="sub">
           기술과 사업의 방향을 바깥에서 확인받으며 만들고 있습니다.
-          자세한 내용은 <a href="/technology">기술 페이지</a>에 정리했습니다.
+          자세한 내용은 <a href={url('/technology')}>기술 페이지</a>에 정리했습니다.
         </Fragment>
       </SectionHead>
 
@@ -231,7 +232,7 @@ const history = [
       </div>
 
       <div class="info-actions">
-        <a href="/contact" class="btn btn-primary">찾아오시는 길 · 문의</a>
+        <a href={url('/contact')} class="btn btn-primary">찾아오시는 길 · 문의</a>
         <a
           href={links.glumingSite}
           class="btn btn-ghost"

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { url } from '../lib/url';
 import SectionHead from '../components/SectionHead.astro';
 import { credentials, patentAreas, patentSummary } from '../lib/credentials';
 import { links } from '../lib/links';
@@ -148,7 +149,7 @@ const pipeline = [
         않습니다. 예측은 참고를 위한 것이며, 건강에 관한 판단은 의료 전문가와 상의하시기 바랍니다.
       </p>
       <div class="boundary-actions">
-        <a href="/products" class="btn btn-primary">제품에서 확인하기</a>
+        <a href={url('/products')} class="btn btn-primary">제품에서 확인하기</a>
         <a
           href={links.glumingSite}
           class="btn btn-ghost"

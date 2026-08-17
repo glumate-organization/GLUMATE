@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { url } from '../lib/url';
 import Layout from '../layouts/Layout.astro';
 import SectionHead from '../components/SectionHead.astro';
 import { logos, products } from '../lib/assets';
@@ -74,8 +75,8 @@ const gluming = products[0];
           숫자를 더 보여주는 대신, 오늘 무엇을 하면 좋을지 스스로 알 수 있도록 돕습니다.
         </p>
         <div class="hero-actions intro" style="--i:2">
-          <a href="/technology" class="btn btn-primary">기술 보기</a>
-          <a href="/products" class="btn btn-ghost">제품 보기</a>
+          <a href={url('/technology')} class="btn btn-primary">기술 보기</a>
+          <a href={url('/products')} class="btn btn-ghost">제품 보기</a>
         </div>
       </div>
 
@@ -165,7 +166,7 @@ const gluming = products[0];
             혈당 데이터를 다루는 방식에 대해 <strong>{patentSummary.count}건의 특허를 출원</strong>했습니다.
             ({patentSummary.filedLabel} · {patentSummary.statusLabel})
           </p>
-          <a href="/technology" class="btn btn-on-dark tech-cta">기술 자세히 보기</a>
+          <a href={url('/technology')} class="btn btn-on-dark tech-cta">기술 자세히 보기</a>
         </div>
 
         {
@@ -266,7 +267,7 @@ const gluming = products[0];
             {gluming.points.map((p) => <li>{p}</li>)}
           </ul>
           <div class="product-actions">
-            <a href="/products" class="btn btn-primary">제품 자세히 보기</a>
+            <a href={url('/products')} class="btn btn-primary">제품 자세히 보기</a>
             <a
               href={links.glumingSite}
               class="btn btn-ghost"
@@ -296,7 +297,7 @@ const gluming = products[0];
         <p class="cta-body">제휴·협업·채용 문의를 기다리고 있습니다. 사람이 직접 읽고 답합니다.</p>
       </div>
       <div class="cta-actions">
-        <a href="/contact" class="btn btn-primary">문의하기</a>
+        <a href={url('/contact')} class="btn btn-primary">문의하기</a>
         <a href={`mailto:${company.email}`} class="btn btn-ghost">{company.email}</a>
       </div>
     </div>

@@ -15,12 +15,14 @@ const routes: { path: string; priority: string; changefreq: string }[] = [
 
 export const GET: APIRoute = ({ site }) => {
   const origin = (site ?? new URL(company.site)).origin;
+  // base 경로(저장소 하위 경로 배포)까지 반영해야 실제 URL과 맞는다.
+  const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
   const lastmod = new Date().toISOString().slice(0, 10);
 
   const urls = routes
     .map(
       (r) => `  <url>
-    <loc>${origin}${r.path}</loc>
+    <loc>${origin}${base}${r.path === '/' ? '/' : r.path}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>

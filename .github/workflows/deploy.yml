@@ -28,6 +28,11 @@ jobs:
         env:
           # 없어도 빌드는 통과한다 (푸터 '국세청 확인' 배지만 미표시)
           NTS_API_KEY: ${{ secrets.NTS_API_KEY }}
+          # 배포 위치. 지금은 저장소 하위 경로(github.io/GLUMATE/)로 나간다.
+          # glumate.org DNS 를 GitHub Pages 로 옮긴 뒤에는 아래 두 줄을 지우면
+          # 기본값(https://glumate.org, base '/')으로 돌아간다. public/CNAME 도 그때 추가.
+          SITE_URL: https://glumate-organization.github.io
+          BASE_PATH: /GLUMATE
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
