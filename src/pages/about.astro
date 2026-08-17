@@ -1,0 +1,522 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import SectionHead from '../components/SectionHead.astro';
+import { logos } from '../lib/assets';
+import { company } from '../lib/company';
+import { credentials, patentSummary } from '../lib/credentials';
+import { links } from '../lib/links';
+
+const title = '회사 소개 — 글루메이트 (GLUMATE)';
+const description =
+  '글루메이트는 대전 한남대학교 캠퍼스혁신파크에 자리한 헬스케어 소프트웨어 회사입니다. 건강 데이터를 일상의 행동으로 잇는 제품을 만들며, 더 많은 사람들이 건강하게 살 수 있는 세상을 목표로 합니다.';
+
+// 브랜드 이름의 뜻 — 로고의 GM 심볼과 이어지는 이야기
+const nameStory = [
+  { part: 'GLU', desc: '혈당(Glucose)을 비롯한 몸의 데이터' },
+  { part: 'MATE', desc: '판단해 주는 전문가가 아니라, 옆에서 함께 걷는 친구' },
+];
+
+// 우리가 지키는 원칙 (회사의 행동 기준)
+const values = [
+  {
+    title: '사람이 먼저입니다',
+    body: '건강은 성과 지표가 아니라 누군가의 하루입니다. 지표를 올리기 위해 사용자를 불안하게 만드는 설계는 하지 않습니다.',
+  },
+  {
+    title: '작게 만들고 오래 고칩니다',
+    body: '한 번에 완벽한 제품은 없다고 생각합니다. 필요한 만큼 작게 만들어 내놓고, 쓰신 분들의 이야기를 들으며 오래 다듬습니다.',
+  },
+  {
+    title: '데이터는 빌려 쓰는 것입니다',
+    body: '건강 데이터는 회사의 자산이 아니라 이용자의 것입니다. 목적에 필요한 만큼만 받고, 필요가 끝나면 지웁니다.',
+  },
+  {
+    title: '모르는 것은 모른다고 씁니다',
+    body: '아직 검증되지 않은 효과를 확신처럼 말하지 않습니다. 근거의 범위와 한계를 함께 적는 편을 택합니다.',
+  },
+];
+
+// 연혁 — 증빙 가능한 사실만 (사업자등록증·통신판매업신고증 기준)
+const history = [
+  {
+    date: '2026.03',
+    title: '글루메이트 설립',
+    body: '대전광역시에서 사업자등록을 마치고 헬스케어 소프트웨어 개발을 시작했습니다.',
+  },
+  {
+    date: '2026.03',
+    title: '청년창업사관학교 16기 선정',
+    body: '중소벤처기업진흥공단이 운영하는 청년창업사관학교 16기에 선정되었습니다.',
+  },
+  {
+    date: '2026.04',
+    title: '캠퍼스혁신파크 입주',
+    body: '한남대학교 캠퍼스혁신파크로 사무실을 옮기고 제품 개발에 들어갔습니다.',
+  },
+  {
+    date: '2026.06',
+    title: `특허 ${patentSummary.count}건 출원`,
+    body: '혈당 예측과 건강 상태 해석에 관한 기술 3건을 특허 출원했습니다. 현재 심사가 진행 중입니다.',
+  },
+  {
+    date: '2026.07',
+    title: '㈜아이센스 파트너십 체결',
+    body: '케어센스 에어 제조사 ㈜아이센스와 개발 파트너십을 맺고, 센서 데이터를 정식 경로로 연동하게 되었습니다.',
+  },
+  {
+    date: '2026.08',
+    title: '글루밍 정식 출시',
+    body: 'App Store와 Google Play에 웰니스 앱 글루밍을 정식 출시했습니다.',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <!-- ─── 헤더 ─────────────────────────────────────────── -->
+  <section class="page-head">
+    <div class="head-grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <span class="eyebrow intro" style="--i:0">About — 회사 소개</span>
+      <h1 class="page-title">
+        <span class="line" style="--i:0"><span>건강하게 사는 일이</span></span>
+        <span class="line" style="--i:1"><span class="accent">조금 더 쉬워지도록</span></span>
+      </h1>
+      <p class="page-lead intro" style="--i:1">
+        글루메이트는 대전 한남대학교 캠퍼스혁신파크에 자리한 헬스케어 소프트웨어 회사입니다.
+        몸에서 나오는 데이터를 일상의 행동과 이어, 스스로 건강을 관리하는 일이 조금 더 쉬워지도록 만듭니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── 슬로건 ───────────────────────────────────────── -->
+  <section class="statement">
+    <div class="statement-grid-bg" aria-hidden="true"></div>
+    <div class="container statement-inner">
+      <Image
+        class="statement-mark"
+        src={logos.markWhite}
+        alt=""
+        width={140}
+        height={82}
+        densities={[1, 2]}
+        data-parallax="-0.18"
+      />
+      <blockquote class="statement-text">
+        더 많은 사람들이 건강하게 살 수 있는 세상을 만들기 위해<br class="br-lg" />
+        최선을 다하는 회사입니다.
+      </blockquote>
+      <p class="statement-by">— 글루메이트가 일하는 이유</p>
+    </div>
+  </section>
+
+  <!-- ─── 이름의 뜻 ────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="01 — Our Name" variant="split">
+        이름에 담은 것
+        <Fragment slot="sub">
+          글루메이트(GLUMATE)라는 이름은 우리가 어떤 태도로 일할지를 먼저 정해 둔 약속입니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="name-grid" data-reveal>
+        <div class="name-card">
+          <Image
+            class="name-mark"
+            src={logos.mark}
+            alt="글루메이트 GM 심볼"
+            width={200}
+            height={117}
+            densities={[1, 2]}
+          />
+          <p class="name-cap">GM — Glumate 심볼</p>
+        </div>
+        <dl class="name-parts">
+          {
+            nameStory.map((n) => (
+              <div class="name-part">
+                <dt>{n.part}</dt>
+                <dd>{n.desc}</dd>
+              </div>
+            ))
+          }
+          <p class="name-note">
+            데이터를 쥔 쪽이 사람을 판단하는 것이 아니라, 데이터를 사람 편으로 돌려주는 일.
+            그것이 우리가 만들려는 제품의 형태입니다.
+          </p>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 원칙 ─────────────────────────────────────────── -->
+  <section class="section values-section">
+    <div class="container">
+      <SectionHead eyebrow="02 — Our Values" variant="split">
+        판단이 어려울 때 돌아오는 자리
+        <Fragment slot="sub">
+          제품을 만들다 보면 답이 하나가 아닌 순간이 옵니다.
+          그럴 때 저희는 아래 네 가지로 돌아와 결정합니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="cells cells-2" data-reveal="stagger">
+        {
+          values.map((v, i) => (
+            <article class="cell">
+              <span class="cell-index">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{v.title}</h3>
+              <p>{v.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 연혁 ─────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="03 — History" variant="split">
+        걸어온 길
+        <Fragment slot="sub">
+          짧은 시간이지만, 한 걸음씩 확인 가능한 방식으로 쌓아 왔습니다.
+        </Fragment>
+      </SectionHead>
+
+      <ol class="timeline" data-reveal="stagger">
+        {
+          history.map((h) => (
+            <li class:list={['tl-item', { 'is-upcoming': h.upcoming }]}>
+              <span class="tl-dot" aria-hidden="true" />
+              <span class="tl-date">{h.date}</span>
+              <div class="tl-body">
+                <h3>{h.title}</h3>
+                <p>{h.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ─── 함께하는 곳 ──────────────────────────────────── -->
+  <section class="section info-section">
+    <div class="container">
+      <SectionHead eyebrow="04 — Together" variant="split">
+        함께하는 곳
+        <Fragment slot="sub">
+          기술과 사업의 방향을 바깥에서 확인받으며 만들고 있습니다.
+          자세한 내용은 <a href="/technology">기술 페이지</a>에 정리했습니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="creds" data-reveal="stagger">
+        {
+          credentials.map((c) => (
+            <article class="cred">
+              <span class="cred-kind">{c.kind}</span>
+              <p class="cred-name">{c.name}</p>
+              <p class="cred-meta">{c.meta}</p>
+            </article>
+          ))
+        }
+        <article class="cred">
+          <span class="cred-kind">Patents Pending</span>
+          <p class="cred-name">특허 출원 {patentSummary.count}건</p>
+          <p class="cred-meta">{patentSummary.filedLabel} · {patentSummary.statusLabel}</p>
+        </article>
+      </div>
+
+      <div class="info-actions">
+        <a href="/contact" class="btn btn-primary">찾아오시는 길 · 문의</a>
+        <a
+          href={links.glumingSite}
+          class="btn btn-ghost"
+          target="_blank"
+          rel="noopener noreferrer">글루밍 웹사이트 ↗</a
+        >
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ── 페이지 헤더 ──────────────────────────────────── */
+  .page-head {
+    position: relative;
+    padding: clamp(56px, 7vw, 92px) 0 clamp(48px, 6vw, 76px);
+    overflow: hidden;
+  }
+  .head-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-light);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+    pointer-events: none;
+  }
+  .page-head .container {
+    position: relative;
+  }
+  .page-title {
+    font-size: var(--fs-h1);
+    letter-spacing: -0.042em;
+  }
+  .page-title .accent {
+    color: var(--navy);
+  }
+  .page-lead {
+    margin-top: var(--sp-6);
+    max-width: 640px;
+    color: var(--text-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-body);
+  }
+
+  /* ── 슬로건 밴드 ──────────────────────────────────── */
+  .statement {
+    position: relative;
+    padding: clamp(56px, 7vw, 96px) 0;
+    background: var(--navy);
+    overflow: hidden;
+  }
+  .statement-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-dark);
+    background-size: 64px 64px;
+  }
+  .statement-inner {
+    position: relative;
+    text-align: center;
+  }
+  .statement-mark {
+    width: 68px;
+    height: auto;
+    margin: 0 auto var(--sp-6);
+    opacity: 0.9;
+  }
+  .statement-text {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(21px, 2.9vw, 34px);
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -0.035em;
+    word-break: keep-all;
+  }
+  .statement-by {
+    margin-top: var(--sp-5);
+    color: var(--on-dark-2);
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+  }
+  @media (max-width: 720px) {
+    .br-lg {
+      display: none;
+    }
+  }
+
+  /* ── 이름의 뜻 ────────────────────────────────────── */
+  .name-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: start;
+  }
+  .name-card {
+    display: grid;
+    place-items: center;
+    padding: clamp(32px, 4vw, 52px) var(--sp-5);
+    background: var(--navy-tint);
+    border: 1px solid var(--navy-line);
+    border-radius: var(--r-lg);
+  }
+  .name-mark {
+    width: min(100%, 180px);
+    height: auto;
+  }
+  .name-cap {
+    margin-top: var(--sp-5);
+    color: var(--navy);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .name-parts {
+    margin: 0;
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .name-part {
+    display: grid;
+    grid-template-columns: 116px minmax(0, 1fr);
+    gap: var(--sp-5);
+    align-items: baseline;
+    padding: var(--sp-5) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .name-part dt {
+    color: var(--navy);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+  .name-part dd {
+    margin: 0;
+    color: var(--text-2);
+    font-size: 15.5px;
+    line-height: 1.75;
+  }
+  .name-note {
+    margin: var(--sp-6) 0 0;
+    color: var(--text);
+    font-size: 15.5px;
+    line-height: 1.85;
+  }
+
+  /* ── 원칙 ─────────────────────────────────────────── */
+  .values-section {
+    background: var(--surface-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .cells-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* ── 연혁 ─────────────────────────────────────────── */
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .tl-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 128px minmax(0, 1fr);
+    gap: clamp(16px, 3vw, 40px);
+    padding: var(--sp-6) 0 var(--sp-6) 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .tl-item:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--rule);
+  }
+  .tl-item:first-child::before {
+    top: 50%;
+  }
+  .tl-item:last-child::before {
+    bottom: 50%;
+  }
+  .tl-dot {
+    position: absolute;
+    left: 0;
+    top: calc(50% - 5.5px);
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--navy);
+  }
+  .is-upcoming .tl-dot {
+    background: var(--bg);
+  }
+  .tl-date {
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    padding-top: 2px;
+  }
+  .is-upcoming .tl-date {
+    color: var(--text-3);
+  }
+  .tl-body h3 {
+    font-size: var(--fs-h4);
+  }
+  .tl-body p {
+    margin-top: 8px;
+    color: var(--text-2);
+    font-size: 15px;
+    line-height: 1.78;
+  }
+
+  /* ── 함께하는 곳 ──────────────────────────────────── */
+  .info-section {
+    background: var(--surface-2);
+    border-top: 1px solid var(--rule);
+  }
+  .creds {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .cred {
+    padding: clamp(24px, 3vw, 34px);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--navy);
+    border-radius: 0 0 var(--r-md) var(--r-md);
+    transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);
+  }
+  .cred:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .cred-kind {
+    color: var(--navy);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .cred-name {
+    margin-top: 16px;
+    font-size: clamp(19px, 2vw, 23px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+  }
+  .cred-meta {
+    margin-top: 8px;
+    color: var(--text-2);
+    font-size: 14px;
+  }
+  .info-actions {
+    margin-top: var(--sp-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (max-width: 860px) {
+    .name-grid {
+      grid-template-columns: 1fr;
+    }
+    .cells-2 {
+      grid-template-columns: 1fr;
+    }
+    .tl-item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .creds {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

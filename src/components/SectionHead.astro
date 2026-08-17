@@ -1,0 +1,61 @@
+---
+interface Props {
+  eyebrow?: string;
+  /** 'stack' = 제목 아래 설명, 'split' = 좌 제목 / 우 설명 */
+  variant?: 'stack' | 'split';
+  light?: boolean;
+  align?: 'left' | 'center';
+}
+
+const { eyebrow, variant = 'stack', light = false, align = 'left' } = Astro.props;
+const hasSub = Astro.slots.has('sub');
+---
+
+<div class:list={['head', `is-${variant}`, `align-${align}`, { light }]}>
+  <div class="head-main">
+    {eyebrow && <span class:list={['eyebrow', { 'eyebrow-light': light }]}>{eyebrow}</span>}
+    <h2 class="section-title"><slot /></h2>
+  </div>
+  {
+    hasSub && (
+      <p class="section-sub">
+        <slot name="sub" />
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .head {
+    margin-bottom: var(--block-gap);
+  }
+  .head.light .section-title {
+    color: #fff;
+  }
+  .head.light .section-sub {
+    color: var(--on-dark-2);
+  }
+  .align-center {
+    text-align: center;
+  }
+  .align-center .section-sub {
+    margin-inline: auto;
+  }
+
+  .is-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: end;
+  }
+  .is-split .section-sub {
+    margin-top: 0;
+  }
+
+  @media (max-width: 860px) {
+    .is-split {
+      grid-template-columns: 1fr;
+      gap: var(--sp-5);
+    }
+  }
+</style>

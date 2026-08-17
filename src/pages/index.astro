@@ -1,0 +1,884 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import SectionHead from '../components/SectionHead.astro';
+import { logos, products } from '../lib/assets';
+import { company } from '../lib/company';
+import { credentials, patentAreas, patentSummary } from '../lib/credentials';
+import { links } from '../lib/links';
+
+const title = '글루메이트 (GLUMATE) — 더 많은 사람들이 건강하게 살 수 있는 세상을';
+const description =
+  '글루메이트는 연속혈당측정 데이터를 일상의 행동으로 잇는 헬스케어 소프트웨어 회사입니다. 혈당 예측 기술로 특허 3건을 출원했고, ㈜아이센스와 개발 파트너십을 맺었으며, 청년창업사관학교 16기에 선정되었습니다.';
+
+// 히어로 제목 — 줄 단위로 마스크 리빌된다
+const heroLines = ['더 많은 사람들이', '건강하게 살 수 있는', '세상을 만듭니다'];
+
+// 흐르는 키워드 밴드
+const marquee = [
+  '연속혈당측정 CGM',
+  '혈당 예측',
+  '운동 강도 METs',
+  '건강 상태 점수',
+  '㈜아이센스 파트너십',
+  '특허 출원 3건',
+  '청년창업사관학교 16기',
+  '웰니스 소프트웨어',
+];
+
+// 숫자로 보는 회사 — count:false 인 값(연도)은 세지 않고 그대로 보여준다
+const stats = [
+  { value: 3, suffix: '건', label: '특허 출원', note: '심사 진행 중', count: true },
+  { value: 16, suffix: '기', label: '청년창업사관학교', note: '중소벤처기업진흥공단', count: true },
+  { value: 1, suffix: '개', label: '서비스 중인 제품', note: '글루밍', count: true },
+  { value: 2026, suffix: '', label: '설립', note: '대전 캠퍼스혁신파크', count: false },
+];
+
+// 우리가 일하는 방식
+const principles = [
+  {
+    title: '어렵게 만들지 않습니다',
+    body: '숫자를 그대로 보여주는 일은 쉽습니다. 어려운 것은 그 숫자가 내 하루의 무엇과 이어지는지 알려주는 일입니다. 우리는 늘 후자를 만듭니다.',
+  },
+  {
+    title: '하루에 남는 것을 만듭니다',
+    body: '한 번 놀라운 기능보다, 내일도 열게 되는 화면이 건강을 바꿉니다. 기록의 부담을 덜고 작은 습관이 이어지도록 설계합니다.',
+  },
+  {
+    title: '경계를 지킵니다',
+    body: '우리가 만드는 것은 생활습관 관리를 돕는 웰니스 서비스입니다. 진단하거나 치료하지 않으며, 할 수 없는 일을 할 수 있다고 말하지 않습니다.',
+  },
+];
+
+const gluming = products[0];
+---
+
+<Layout title={title} description={description}>
+  <!-- ─── 1. HERO ─────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow intro" style="--i:0">GLUMATE · 글루메이트</span>
+        <h1 class="hero-title">
+          {
+            heroLines.map((line, i) => (
+              <span class="line" style={`--i:${i}`}>
+                <span class:list={{ accent: i === 1 }}>{line}</span>
+              </span>
+            ))
+          }
+        </h1>
+        <p class="hero-lead intro" style="--i:1">
+          글루메이트는 연속혈당측정(CGM) 데이터를 일상의 행동으로 잇는 소프트웨어를 만듭니다.
+          숫자를 더 보여주는 대신, 오늘 무엇을 하면 좋을지 스스로 알 수 있도록 돕습니다.
+        </p>
+        <div class="hero-actions intro" style="--i:2">
+          <a href="/technology" class="btn btn-primary">기술 보기</a>
+          <a href="/products" class="btn btn-ghost">제품 보기</a>
+        </div>
+      </div>
+
+      <!-- 명판(nameplate) — 스크롤에 따라 살짝 어긋나게 움직인다.
+           등장(.intro)과 패럴랙스는 서로 다른 요소에 건다. 같은 요소에 걸면
+           JS가 쓰는 인라인 transform 이 CSS 등장 transform 을 덮어써 버린다. -->
+      <div class="plate-wrap intro" style="--i:3">
+        <div class="plate" data-parallax="-0.12">
+          <div class="plate-grid" aria-hidden="true"></div>
+          <Image
+            class="plate-logo"
+            src={logos.verticalWhite}
+            alt="글루메이트 GLUMATE 로고"
+            width={420}
+            height={197}
+            densities={[1, 2]}
+            loading="eager"
+          />
+          <p class="plate-sub">{company.slogan}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-cue intro" style="--i:4" aria-hidden="true">
+      <span>SCROLL</span>
+      <i></i>
+    </div>
+  </section>
+
+  <!-- ─── 2. 흐르는 키워드 ─────────────────────────────── -->
+  <div class="band">
+    <div class="marquee">
+      <div class="marquee-track">
+        {
+          [0, 1].map(() => (
+            <div class="marquee-set" aria-hidden="true">
+              {marquee.map((m) => (
+                <span class="marquee-item">{m}</span>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <span class="sr-only">
+      글루메이트의 키워드: {marquee.join(', ')}
+    </span>
+  </div>
+
+  <!-- ─── 3. 숫자 ──────────────────────────────────────── -->
+  <section class="section-tight stats-section">
+    <div class="container">
+      <dl class="stats" data-reveal="stagger">
+        {
+          stats.map((s) => (
+            <div class="stat">
+              <dt>{s.label}</dt>
+              <dd>
+                {
+                  s.count ? (
+                    <span class="stat-num" data-count={s.value}>
+                      0
+                    </span>
+                  ) : (
+                    <span class="stat-num">{s.value}</span>
+                  )
+                }
+                <span class="stat-suffix">{s.suffix}</span>
+              </dd>
+              <p class="stat-note">{s.note}</p>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- ─── 4. 기술 (핀 구간) ────────────────────────────── -->
+  <section class="tech" data-pin>
+    <div class="tech-grid-bg" aria-hidden="true"></div>
+    <div class="pin-viewport">
+      <div class="pin-track" data-pin-track>
+        <div class="tech-panel">
+          <span class="eyebrow eyebrow-light">01 — Technology</span>
+          <h2 class="tech-title">기술로 증명합니다</h2>
+          <p class="tech-sub">
+            혈당 데이터를 다루는 방식에 대해 <strong>{patentSummary.count}건의 특허를 출원</strong>했습니다.
+            ({patentSummary.filedLabel} · {patentSummary.statusLabel})
+          </p>
+          <a href="/technology" class="btn btn-on-dark tech-cta">기술 자세히 보기</a>
+        </div>
+
+        {
+          patentAreas.map((p) => (
+            <article class="tech-card">
+              <span class="tech-no">{p.no}</span>
+              <span class="tech-area">{p.area}</span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </article>
+          ))
+        }
+
+        <div class="tech-summary">
+          <span class="tech-summary-num">{patentSummary.count}</span>
+          <p class="tech-summary-label">특허 출원</p>
+          <p class="tech-summary-note">{patentSummary.statusLabel}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 5. 파트너십 · 선정 ───────────────────────────── -->
+  <section class="section cred-section">
+    <div class="container">
+      <SectionHead eyebrow="02 — Partnership" variant="split">
+        혼자 하지 않습니다
+        <Fragment slot="sub">
+          기술은 검증받을 때 의미가 생깁니다. 데이터의 출처부터 사업의 방향까지,
+          바깥에서 확인받은 것만 이야기합니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="creds" data-reveal="stagger">
+        {
+          credentials.map((c) => (
+            <article class="cred">
+              <div class="cred-top">
+                <span class="cred-kind">{c.kind}</span>
+                <span class="cred-meta">{c.meta}</span>
+              </div>
+              <p class="cred-name">{c.name}</p>
+              <h3 class="cred-title">{c.title}</h3>
+              <p class="cred-body">{c.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 6. 우리가 하는 일 ────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="03 — What We Do" variant="split">
+        건강 데이터와 하루 사이의 거리를 좁힙니다
+        <Fragment slot="sub">
+          몸에 관한 숫자는 이미 충분히 많습니다. 부족한 것은 그 숫자가
+          <strong> 내 오늘과 어떻게 이어지는지</strong>에 대한 설명입니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="cells cells-3" data-reveal="stagger">
+        {
+          principles.map((p, i) => (
+            <article class="cell">
+              <span class="cell-index">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 7. 제품 ──────────────────────────────────────── -->
+  <section class="section product-section">
+    <div class="container">
+      <SectionHead eyebrow="04 — Products" variant="split">
+        기술이 사용자에게 닿는 자리
+        <Fragment slot="sub">
+          지금까지의 기술은 웰니스 앱 <strong>글루밍</strong>에 담겨 있습니다.
+        </Fragment>
+      </SectionHead>
+
+      <article class="product" data-reveal>
+        <div class="product-body">
+          <div class="product-head">
+            <span class="status">{gluming.statusLabel}</span>
+            <h3 class="product-name">
+              {gluming.name} <span class="product-en">{gluming.nameEn}</span>
+            </h3>
+          </div>
+          <p class="product-tagline">{gluming.tagline}</p>
+          <p class="product-summary">{gluming.summary}</p>
+          <ul class="product-points">
+            {gluming.points.map((p) => <li>{p}</li>)}
+          </ul>
+          <div class="product-actions">
+            <a href="/products" class="btn btn-primary">제품 자세히 보기</a>
+            <a
+              href={links.glumingSite}
+              class="btn btn-ghost"
+              target="_blank"
+              rel="noopener noreferrer">글루밍 웹사이트 ↗</a
+            >
+          </div>
+        </div>
+
+        <div class="product-shots" aria-hidden="true">
+          <div class="shot shot-1" data-parallax="0.1">
+            <Image src={gluming.shots![0].img} alt="" width={300} height={650} densities={[1, 2]} />
+          </div>
+          <div class="shot shot-2" data-parallax="-0.12">
+            <Image src={gluming.shots![1].img} alt="" width={300} height={650} densities={[1, 2]} />
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ─── 8. CTA ───────────────────────────────────────── -->
+  <section class="section-tight cta">
+    <div class="container cta-inner" data-reveal>
+      <div>
+        <h2 class="cta-title">함께 만들 이야기가 있다면</h2>
+        <p class="cta-body">제휴·협업·채용 문의를 기다리고 있습니다. 사람이 직접 읽고 답합니다.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="/contact" class="btn btn-primary">문의하기</a>
+        <a href={`mailto:${company.email}`} class="btn btn-ghost">{company.email}</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ── HERO ─────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    padding: clamp(56px, 7vw, 100px) 0 clamp(56px, 6vw, 88px);
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-light);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(180deg, #000 0%, transparent 82%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 82%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+  }
+  .hero-title {
+    font-size: var(--fs-display);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.045em;
+  }
+  .hero-title .accent {
+    color: var(--navy);
+  }
+  .hero-lead {
+    margin-top: var(--sp-6);
+    max-width: 520px;
+    color: var(--text-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-body);
+  }
+  .hero-actions {
+    margin-top: var(--sp-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .plate {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: clamp(36px, 4.5vw, 60px) clamp(24px, 3vw, 44px);
+    background: linear-gradient(160deg, var(--navy-deep), var(--navy-ink));
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .plate-grid {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-dark);
+    background-size: 48px 48px;
+  }
+  .plate-logo {
+    position: relative;
+    width: min(100%, 320px);
+    height: auto;
+  }
+  .plate-sub {
+    position: relative;
+    margin-top: var(--sp-6);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--rule-dark);
+    max-width: 340px;
+    color: var(--on-dark-2);
+    font-size: 13.5px;
+    line-height: 1.75;
+    text-align: center;
+  }
+
+  .scroll-cue {
+    position: relative;
+    margin: clamp(40px, 5vw, 68px) auto 0;
+    width: min(var(--maxw), calc(100% - 48px));
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-3);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+  }
+  .scroll-cue i {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--rule-strong), transparent 60%);
+  }
+
+  /* ── 키워드 밴드 ──────────────────────────────────── */
+  .band {
+    position: relative;
+    background: var(--navy);
+    padding: 16px 0;
+    background-image: var(--grid-dark);
+    background-size: 48px 48px;
+  }
+  .marquee-set {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 26px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .marquee-item::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    margin-right: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  /* ── 숫자 ─────────────────────────────────────────── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stat {
+    padding: var(--sp-6) var(--sp-5) var(--sp-6) 0;
+  }
+  .stat + .stat {
+    padding-left: var(--sp-5);
+    border-left: 1px solid var(--rule);
+  }
+  .stat dt {
+    color: var(--text-3);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .stat dd {
+    margin: 8px 0 0;
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    color: var(--navy);
+    letter-spacing: -0.045em;
+  }
+  .stat-num {
+    font-size: clamp(30px, 3.6vw, 44px);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .stat-suffix {
+    font-size: clamp(16px, 1.7vw, 20px);
+    font-weight: 700;
+  }
+  .stat-note {
+    margin-top: 8px;
+    color: var(--text-2);
+    font-size: 13px;
+  }
+
+  /* ── 기술 (핀 구간) ───────────────────────────────── */
+  .tech {
+    position: relative;
+    /* 100vh 는 고정 뷰포트, 나머지가 가로 이동에 쓰이는 스크롤 거리다 */
+    height: 260vh;
+    background: var(--navy-ink);
+  }
+  .tech-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-dark);
+    background-size: 64px 64px;
+    pointer-events: none;
+  }
+  .tech .pin-track {
+    padding-inline: max(24px, calc((100vw - var(--maxw)) / 2));
+    align-items: stretch;
+    /* 고정된 높이를 줘야 카드가 화면을 채우고 '멈춰 선' 느낌이 산다 */
+    height: min(50vh, 380px);
+  }
+  .tech-panel {
+    flex: 0 0 auto;
+    width: clamp(300px, 30vw, 420px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: clamp(12px, 2vw, 28px);
+  }
+  .tech-title {
+    color: #fff;
+    font-size: clamp(30px, 3.6vw, 46px);
+    letter-spacing: -0.04em;
+  }
+  .tech-sub {
+    margin-top: var(--sp-5);
+    color: var(--on-dark-2);
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+  .tech-sub strong {
+    color: #fff;
+  }
+  .tech-cta {
+    margin-top: var(--sp-7);
+    align-self: flex-start;
+  }
+
+  .tech-card {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(280px, 27vw, 380px);
+    display: flex;
+    flex-direction: column;
+    padding: clamp(26px, 2.6vw, 36px);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--r-lg);
+    transition: background var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease);
+  }
+  .tech-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .tech-no {
+    color: rgba(168, 189, 218, 0.55);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+  }
+  .tech-area {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 4px 11px;
+    align-self: flex-start;
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--r-pill);
+    color: #9dc4f5;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .tech-card h3 {
+    /* 카드가 세로로 길어도 비어 보이지 않게 본문은 아래로 붙인다 */
+    margin-top: auto;
+    padding-top: 24px;
+    color: #fff;
+    font-size: clamp(19px, 1.9vw, 23px);
+  }
+  .tech-card p {
+    margin-top: 14px;
+    color: var(--on-dark-2);
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+
+  .tech-summary {
+    flex: 0 0 auto;
+    width: clamp(220px, 20vw, 300px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(26px, 2.6vw, 36px);
+    border: 1px dashed rgba(255, 255, 255, 0.28);
+    border-radius: var(--r-lg);
+    text-align: center;
+  }
+  .tech-summary-num {
+    color: #fff;
+    font-size: clamp(56px, 6vw, 84px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  .tech-summary-label {
+    margin-top: 12px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .tech-summary-note {
+    margin-top: 6px;
+    color: var(--on-dark-2);
+    font-size: 13px;
+  }
+
+  /* ── 파트너십 ─────────────────────────────────────── */
+  .cred-section {
+    background: var(--surface-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .creds {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .cred {
+    padding: clamp(28px, 3.2vw, 40px);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--navy);
+    border-radius: 0 0 var(--r-md) var(--r-md);
+    transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);
+  }
+  .cred:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .cred-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .cred-kind {
+    color: var(--navy);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .cred-meta {
+    color: var(--text-3);
+    font-size: 12.5px;
+  }
+  .cred-name {
+    margin-top: 18px;
+    color: var(--text);
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+  }
+  .cred-title {
+    margin-top: 10px;
+    color: var(--navy);
+    font-size: var(--fs-h4);
+  }
+  .cred-body {
+    margin-top: 14px;
+    color: var(--text-2);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  /* ── 셀 그리드 ────────────────────────────────────── */
+  .cells-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* ── 제품 ─────────────────────────────────────────── */
+  .product-section {
+    background: var(--surface-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .product {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+    padding: clamp(28px, 4vw, 52px);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+  }
+  .product-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px;
+    border: 1px solid var(--navy-line);
+    border-radius: var(--r-pill);
+    background: var(--navy-tint);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--navy);
+  }
+  .product-name {
+    font-size: clamp(24px, 3vw, 34px);
+  }
+  .product-en {
+    color: var(--text-3);
+    font-size: 0.62em;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+  .product-tagline {
+    margin-top: var(--sp-4);
+    color: var(--navy);
+    font-size: var(--fs-h4);
+    font-weight: 700;
+  }
+  .product-summary {
+    margin-top: var(--sp-3);
+    color: var(--text-2);
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+  .product-points {
+    margin: var(--sp-5) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+  }
+  .product-points li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--text);
+    font-size: 15px;
+  }
+  .product-points li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 11px;
+    width: 8px;
+    height: 8px;
+    border: 1.5px solid var(--navy);
+    border-radius: 2px;
+  }
+  .product-actions {
+    margin-top: var(--sp-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .product-shots {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    min-height: 300px;
+  }
+  .shot :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-md);
+  }
+  .shot-1 {
+    width: 46%;
+  }
+  .shot-2 {
+    width: 46%;
+  }
+
+  /* ── CTA ──────────────────────────────────────────── */
+  .cta-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-6);
+    padding: clamp(28px, 3.5vw, 44px);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+  }
+  .cta-title {
+    font-size: var(--fs-h3);
+  }
+  .cta-body {
+    margin-top: 10px;
+    color: var(--text-2);
+    font-size: 15px;
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ── 반응형 ───────────────────────────────────────── */
+  @media (max-width: 980px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .plate-wrap {
+      order: -1;
+    }
+    .plate {
+      padding: 32px 24px;
+    }
+    .plate-logo {
+      width: min(100%, 260px);
+    }
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+    .stat:nth-child(odd) {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .stat:nth-child(even) {
+      padding-left: var(--sp-5);
+      border-left: 1px solid var(--rule);
+    }
+    .stat:nth-child(n + 3) {
+      border-top: 1px solid var(--rule);
+    }
+    .creds {
+      grid-template-columns: 1fr;
+    }
+    .product {
+      grid-template-columns: 1fr;
+    }
+    .product-shots {
+      order: -1;
+      max-width: 420px;
+      margin-inline: auto;
+    }
+    .cells-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* 좁은 화면에서는 핀을 풀고 그냥 세로로 쌓는다 */
+  @media (max-width: 899px) {
+    .tech {
+      height: auto;
+      padding: var(--section-y) 0;
+    }
+    .tech .pin-viewport {
+      position: static;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+    .tech .pin-track {
+      flex-direction: column;
+      padding-inline: 24px;
+      height: auto;
+    }
+    .tech-panel,
+    .tech-card,
+    .tech-summary {
+      width: 100%;
+      padding-right: 0;
+    }
+    .tech-panel {
+      padding-bottom: 8px;
+    }
+    .tech-summary {
+      padding: 28px;
+    }
+  }
+
+</style>

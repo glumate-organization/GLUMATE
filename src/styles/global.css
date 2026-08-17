@@ -1,0 +1,605 @@
+/* ───────────────────────────────────────────────────────────
+   글루메이트 기업 사이트 디자인 토큰.
+
+   컨셉: "설계도(blueprint)". 신뢰를 주는 회사의 얼굴이므로
+   장식보다 정확함 — 얇은 헤어라인, 규칙적인 격자, 절제된 네이비.
+   브랜드 네이비(#004294)는 로고 원본에서 직접 샘플링한 값이다.
+
+   색/반경/그림자/타이포/여백은 반드시 이 변수를 참조한다 (하드코딩 금지).
+   ─────────────────────────────────────────────────────────── */
+
+/* ─── self-host 폰트 (외부 CDN 의존 0) ─── */
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 45 920;
+  font-display: swap;
+  font-style: normal;
+  src: url("../assets/fonts/PretendardVariable.woff2") format("woff2");
+}
+
+:root {
+  /* ── 브랜드 ─────────────────────────────── */
+  --navy: #004294; /* 로고 원본 색 — 브랜드 기준색 */
+  --navy-deep: #002b60; /* 다크 섹션 바탕 */
+  --navy-ink: #001b3d; /* 다크 섹션 최심부 */
+  --navy-lit: #1b62c4; /* 링크·호버 (밝은 바탕에서 대비 확보) */
+  --navy-tint: #e9f0fa; /* 아주 옅은 면 */
+  --navy-line: #c6d8f0; /* 브랜드 헤어라인 */
+
+  /* ── 바탕 ───────────────────────────────── */
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-2: #f0f4f9;
+
+  /* ── 텍스트 ─────────────────────────────── */
+  --text: #111826;
+  --text-2: #515c6d;
+  --text-3: #8a93a1;
+  --on-dark: #eef3fa;
+  --on-dark-2: #a8bdda;
+
+  /* ── 선 ─────────────────────────────────── */
+  --rule: #e0e6ee;
+  --rule-strong: #cdd6e2;
+  --rule-dark: rgba(255, 255, 255, 0.14);
+
+  /* ── 반경 — 기업 사이트답게 작게 ────────── */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-pill: 999px;
+
+  /* ── 그림자 — 거의 쓰지 않는다 ──────────── */
+  --shadow-soft: 0 1px 2px rgba(17, 24, 38, 0.05);
+  --shadow-md: 0 12px 32px rgba(17, 24, 38, 0.08);
+  --shadow-lg: 0 28px 70px rgba(0, 43, 96, 0.14);
+
+  /* ── 레이아웃 ───────────────────────────── */
+  --maxw: 1180px;
+  --measure: 660px;
+  --nav-h: 72px;
+
+  /* ── 타이포 ─────────────────────────────── */
+  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", Roboto, sans-serif;
+
+  --fs-display: clamp(36px, 5.6vw, 68px); /* 홈 히어로 전용 */
+  --fs-h1: clamp(30px, 4.4vw, 50px); /* 하위 페이지 h1 */
+  --fs-h2: clamp(26px, 3.4vw, 40px); /* 섹션 제목 */
+  --fs-h3: clamp(18px, 2vw, 23px); /* 카드·행 제목 */
+  --fs-h4: 17px;
+  --fs-lead: clamp(16px, 1.5vw, 18.5px);
+  --fs-body: 16px;
+  --fs-sm: 14px;
+  --fs-xs: 12.5px;
+
+  --lh-tight: 1.08;
+  --lh-title: 1.2;
+  --lh-body: 1.78;
+
+  /* ── 여백 리듬 (8px 배수) ───────────────── */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 40px;
+  --sp-8: 56px;
+  --sp-9: 72px;
+  --sp-10: 96px;
+  --section-y: clamp(68px, 8.5vw, 128px);
+  --block-gap: clamp(36px, 5vw, 60px);
+
+  /* ── 움직임 ─────────────────────────────── */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-1: 0.16s;
+  --dur-2: 0.3s;
+
+  /* ── 설계도 격자 (인라인 SVG — 외부 자산 0) ── */
+  --grid-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M64 0H0v64' fill='none' stroke='%23004294' stroke-opacity='0.07' stroke-width='1'/%3E%3C/svg%3E");
+  --grid-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M64 0H0v64' fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* ─── 리셋 ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: var(--lh-body);
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* clip: hidden 과 달리 스크롤 컨테이너를 만들지 않는다 (reveal 애니메이션 보호) */
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 700;
+  line-height: var(--lh-title);
+  letter-spacing: -0.032em;
+  /* 한글은 아무 글자에서나 줄이 바뀌므로 어절 단위로 끊는다 */
+  word-break: keep-all;
+}
+
+p {
+  margin: 0;
+  word-break: keep-all;
+}
+
+strong,
+b {
+  font-weight: 700;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* ─── 레이아웃 유틸 ────────────────────────────────────── */
+.container {
+  width: min(var(--maxw), calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.section {
+  padding: var(--section-y) 0;
+}
+
+.section-tight {
+  padding: clamp(48px, 6vw, 88px) 0;
+}
+
+/* 영문 eyebrow — "01 — WHAT WE DO" */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 var(--sp-5);
+  color: var(--navy);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--navy);
+  opacity: 0.5;
+}
+
+.on-dark .eyebrow,
+.eyebrow-light {
+  color: var(--on-dark-2);
+}
+
+.on-dark .eyebrow::before,
+.eyebrow-light::before {
+  background: var(--on-dark-2);
+}
+
+.section-title {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.038em;
+}
+
+.section-sub {
+  margin-top: var(--sp-5);
+  max-width: var(--measure);
+  color: var(--text-2);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+}
+
+/* 슬롯으로 들어온 링크 — 컴포넌트 스코프 밖이므로 전역에서 칠한다 */
+.section-sub a,
+.prose-link {
+  color: var(--navy-lit);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.head.light .section-sub a {
+  color: #9dc4f5;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* ─── 버튼 ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  transition: background var(--dur-1) var(--ease),
+    color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease),
+    transform var(--dur-1) var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--navy-deep);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--navy);
+  border-color: var(--rule-strong);
+}
+
+.btn-ghost:hover {
+  border-color: var(--navy);
+  background: var(--navy-tint);
+}
+
+.btn-on-dark {
+  background: #fff;
+  color: var(--navy-deep);
+}
+
+.btn-on-dark:hover {
+  background: var(--on-dark);
+}
+
+.btn-ghost-dark {
+  background: transparent;
+  color: #fff;
+  border-color: var(--rule-dark);
+}
+
+.btn-ghost-dark:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── 선으로 나뉜 격자 칸 ──────────────────────────────
+   흰 카드+그림자 대신 헤어라인만으로 층위를 만든다. */
+.cells {
+  display: grid;
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.cell {
+  position: relative;
+  padding: var(--sp-6) var(--sp-5) var(--sp-7);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  transition: background var(--dur-2) var(--ease);
+}
+
+.cell:hover {
+  background: var(--surface-2);
+}
+
+.cell-index {
+  display: block;
+  margin-bottom: var(--sp-4);
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell h3 {
+  font-size: var(--fs-h3);
+}
+
+.cell p {
+  margin-top: var(--sp-3);
+  color: var(--text-2);
+  font-size: 15px;
+  line-height: 1.76;
+}
+
+/* ─── 정보 테이블 (회사 정보 등) ───────────────────────── */
+.spec {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1.5px solid var(--text);
+  font-size: 15px;
+}
+
+.spec th,
+.spec td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.7;
+}
+
+.spec th {
+  width: 200px;
+  color: var(--text-2);
+  font-weight: 600;
+  background: var(--surface-2);
+  white-space: nowrap;
+}
+
+.spec td {
+  background: var(--surface);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  .spec th {
+    width: 116px;
+    padding: 14px 12px;
+    font-size: 13.5px;
+    white-space: normal;
+  }
+  .spec td {
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+}
+
+/* ─── 산문 (약관·방침 페이지) ──────────────────────────── */
+.prose {
+  max-width: 760px;
+  color: var(--text-2);
+  font-size: 15.5px;
+  line-height: 1.85;
+}
+
+.prose h2 {
+  margin: var(--sp-9) 0 var(--sp-4);
+  color: var(--text);
+  font-size: 21px;
+  letter-spacing: -0.03em;
+}
+
+.prose h3 {
+  margin: var(--sp-6) 0 var(--sp-2);
+  color: var(--text);
+  font-size: 16.5px;
+}
+
+.prose p + p {
+  margin-top: var(--sp-4);
+}
+
+.prose ul,
+.prose ol {
+  margin: var(--sp-3) 0 0;
+  padding-left: 20px;
+}
+
+.prose li {
+  margin-top: 6px;
+}
+
+.prose a {
+  color: var(--navy-lit);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ═══ 모션 레이어 ═══════════════════════════════════════
+   원칙: JS 없이도 콘텐츠는 100% 보인다.
+   숨기는 규칙은 전부 `html.js` 안에서만 적용된다 (Layout head 인라인 스크립트가 붙임).
+   ─────────────────────────────────────────────────────── */
+
+/* ── 진입 리빌 ─────────────────────────────────────────
+   [data-reveal]          한 덩어리로 올라옴
+   [data-reveal=stagger]  자식이 --i 순서대로 시차를 두고 올라옴 */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  will-change: opacity, transform;
+}
+
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.js [data-reveal="stagger"] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.js [data-reveal="stagger"] > * {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.66s var(--ease), transform 0.66s var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.js [data-reveal="stagger"].is-in > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 히어로 첫 등장: 줄 단위 마스크 리빌 ─────────────── */
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.line > span {
+  display: block;
+}
+
+.js .line > span {
+  transform: translateY(105%);
+  transition: transform 1s var(--ease);
+  transition-delay: calc(var(--i, 0) * 110ms + 80ms);
+}
+
+.js.is-ready .line > span {
+  transform: none;
+}
+
+/* 히어로 부속(리드·버튼·명판)은 줄 리빌 뒤에 따라 들어온다 */
+.js .intro {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition-delay: calc(var(--i, 0) * 120ms + 420ms);
+}
+
+.js.is-ready .intro {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 스크롤 진행바 ─────────────────────────────────────
+   nav 아래 붙는 1.5px 네이비 선. */
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--navy);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+/* ── 마퀴 (무한 가로 흐름) ─────────────────────────────
+   같은 내용을 두 벌 이어 붙이고 절반만큼 이동시켜 끊김 없이 순환. */
+@keyframes marquee-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  user-select: none;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-slide 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── 핀 구간 (붙잡고 가로로 밀기) ──────────────────────
+   JS가 pinActive를 켠 넓은 화면에서만 sticky 로 동작한다. */
+.pin-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.pin-track {
+  display: flex;
+  gap: clamp(20px, 2.4vw, 34px);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-reveal],
+  .js [data-reveal] > *,
+  .js .intro {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .js .line > span {
+    transform: none !important;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

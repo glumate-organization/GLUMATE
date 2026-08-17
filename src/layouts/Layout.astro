@@ -1,0 +1,109 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { company } from '../lib/company';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** og:image 절대 URL (자기 도메인) — 선택 */
+  ogImage?: string;
+}
+
+const {
+  title = '글루메이트 (GLUMATE) — 더 많은 사람들이 건강하게 살 수 있는 세상을',
+  description = '글루메이트는 건강 데이터를 일상의 행동으로 잇는 소프트웨어를 만듭니다. 더 많은 사람들이 건강하게 살 수 있는 세상을 만들기 위해 최선을 다합니다. 첫 번째 제품은 웰니스 앱 글루밍입니다.',
+  ogImage = `${company.site}/og.png`,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? company.site).href;
+
+// 검색엔진에 회사 정보를 구조화해 전달한다 (신뢰 정보의 기계 판독 가능한 사본).
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: `${company.nameKo} (${company.nameEn})`,
+  alternateName: company.nameEn,
+  url: company.site,
+  logo: `${company.site}/favicon.png`,
+  email: company.email,
+  slogan: company.slogan,
+  foundingDate: company.foundedISO,
+  founder: { '@type': 'Person', name: company.ceo },
+  taxID: company.bizNo,
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'KR',
+    addressRegion: '대전광역시',
+    addressLocality: '대덕구',
+    streetAddress: company.addressShort,
+  },
+};
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#004294" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / 공유 메타데이터 (자기 도메인 절대 URL — 렌더링 의존 아님) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="글루메이트 GLUMATE" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} is:inline />
+
+    <!-- 모션 CSS는 html.js 안에서만 요소를 숨긴다.
+         이 한 줄이 실행되지 않으면(=JS 꺼짐) 모든 콘텐츠가 처음부터 그냥 보인다. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">본문 바로가기</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import '../scripts/motion';
+    </script>
+
+    <style>
+      .skip-link {
+        position: absolute;
+        left: 12px;
+        top: -60px;
+        z-index: 200;
+        padding: 10px 16px;
+        background: var(--navy);
+        color: #fff;
+        border-radius: var(--r-sm);
+        font-weight: 700;
+        transition: top var(--dur-1) var(--ease);
+      }
+      .skip-link:focus {
+        top: 12px;
+      }
+    </style>
+  </body>
+</html>

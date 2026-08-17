@@ -1,0 +1,351 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import SectionHead from '../components/SectionHead.astro';
+import { products } from '../lib/assets';
+import { links } from '../lib/links';
+
+const title = '제품 — 글루메이트 (GLUMATE)';
+const description =
+  '글루메이트가 만드는 제품을 소개합니다. 첫 번째 제품은 연속혈당측정(CGM) 데이터와 일상의 기록을 이어 생활습관 관리를 돕는 웰니스 앱 글루밍입니다.';
+
+const gluming = products[0];
+
+// 제품을 만들 때 지키는 기준.
+const criteria = [
+  {
+    title: '데이터가 저절로 모일 것',
+    body: '직접 적어야만 쌓이는 기록은 오래가지 못합니다. 센서와 건강 데이터 연동으로 기록의 부담을 먼저 덜어냅니다.',
+  },
+  {
+    title: '해석까지 해줄 것',
+    body: '그래프를 띄우는 데서 끝내지 않습니다. 그 값이 어제의 식사·운동과 어떻게 이어지는지를 말로 풀어 보여줍니다.',
+  },
+  {
+    title: '내일도 열게 될 것',
+    body: '캐릭터와 미션처럼 부담 없는 장치로 매일의 습관을 잇습니다. 재미는 목적이 아니라 지속을 위한 수단입니다.',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <section class="page-head">
+    <div class="head-grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <span class="eyebrow intro" style="--i:0">Products — 제품</span>
+      <h1 class="page-title">
+        <span class="line" style="--i:0"><span>몸의 데이터를</span></span>
+        <span class="line" style="--i:1"><span class="accent">하루의 선택으로</span></span>
+      </h1>
+      <p class="page-lead intro" style="--i:1">
+        글루메이트의 제품은 모두 하나의 질문에서 출발합니다.
+        “이 숫자를 보고 나는 오늘 무엇을 하면 좋을까?” 그 답에 가까워지는 제품만 만듭니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── 글루밍 ───────────────────────────────────────── -->
+  <section class="section product-detail">
+    <div class="container">
+      <div class="pd-head">
+        <div class="pd-head-left">
+          <span class="status">{gluming.statusLabel}</span>
+          <h2 class="pd-name">
+            {gluming.name}<span class="pd-en">{gluming.nameEn}</span>
+          </h2>
+          <p class="pd-tagline">{gluming.tagline}</p>
+        </div>
+        {
+          gluming.logo && (
+            <Image
+              class="pd-logo"
+              src={gluming.logo}
+              alt="글루밍 로고"
+              width={260}
+              height={76}
+              densities={[1, 2]}
+            />
+          )
+        }
+      </div>
+
+      <p class="pd-summary">{gluming.summary}</p>
+
+      <div class="pd-actions">
+        <a
+          href={links.appStore}
+          class="btn btn-primary"
+          target="_blank"
+          rel="noopener noreferrer">App Store에서 받기</a
+        >
+        <a
+          href={links.playStore}
+          class="btn btn-primary"
+          target="_blank"
+          rel="noopener noreferrer">Google Play에서 받기</a
+        >
+        <a
+          href={links.glumingSite}
+          class="btn btn-ghost"
+          target="_blank"
+          rel="noopener noreferrer">글루밍 웹사이트 ↗</a
+        >
+      </div>
+
+      <div class="shots" data-reveal="stagger">
+        {
+          gluming.shots?.map((s, i) => (
+            <figure class="shot">
+              <div class="shot-inner" data-parallax={i === 1 ? '-0.08' : '0.06'}>
+                <Image src={s.img} alt={s.caption} width={320} height={693} densities={[1, 2]} />
+              </div>
+              <figcaption>{s.caption}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+
+      <p class="pd-note">
+        글루밍은 생활습관 관리를 돕는 웰니스 서비스입니다. 질병을 진단하거나 치료하지 않으며,
+        의료진의 진료를 대체하지 않습니다. 자세한 이용 조건은{' '}
+        <a href={links.glumingTerms} target="_blank" rel="noopener noreferrer">글루밍 이용약관</a>과{' '}
+        <a href={links.glumingPrivacy} target="_blank" rel="noopener noreferrer">
+          개인정보처리방침
+        </a>에서 확인하실 수 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── 제품 기준 ────────────────────────────────────── -->
+  <section class="section criteria-section">
+    <div class="container">
+      <SectionHead eyebrow="Our Standard" variant="split">
+        제품을 만들 때 지키는 기준
+        <Fragment slot="sub">
+          아래 세 가지를 통과하지 못하면 만들지 않습니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="cells cells-3" data-reveal="stagger">
+        {
+          criteria.map((c, i) => (
+            <article class="cell">
+              <span class="cell-index">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ──────────────────────────────────────────── -->
+  <section class="section-tight cta">
+    <div class="container cta-inner" data-reveal>
+      <div>
+        <h2 class="cta-title">함께 만들 이야기가 있다면</h2>
+        <p class="cta-body">제휴·협업 문의를 기다리고 있습니다. 사람이 직접 읽고 답합니다.</p>
+      </div>
+      <a href="/contact" class="btn btn-primary">제휴·협업 문의</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head {
+    position: relative;
+    padding: clamp(56px, 7vw, 92px) 0 clamp(40px, 5vw, 64px);
+    overflow: hidden;
+  }
+  .head-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-light);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+    pointer-events: none;
+  }
+  .page-head .container {
+    position: relative;
+  }
+  .page-title {
+    font-size: var(--fs-h1);
+    letter-spacing: -0.042em;
+  }
+  .page-title .accent {
+    color: var(--navy);
+  }
+  .page-lead {
+    margin-top: var(--sp-6);
+    max-width: 640px;
+    color: var(--text-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-body);
+  }
+
+  /* ── 제품 상세 ────────────────────────────────────── */
+  .product-detail {
+    padding-top: clamp(32px, 4vw, 56px);
+  }
+  .pd-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-6);
+    padding-bottom: var(--sp-6);
+    border-bottom: 1.5px solid var(--text);
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px;
+    border: 1px solid var(--navy-line);
+    border-radius: var(--r-pill);
+    background: var(--navy-tint);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--navy);
+  }
+  .pd-name {
+    margin-top: var(--sp-4);
+    font-size: clamp(30px, 4.4vw, 48px);
+    letter-spacing: -0.045em;
+  }
+  .pd-en {
+    margin-left: 12px;
+    color: var(--text-3);
+    font-size: 0.5em;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+  .pd-tagline {
+    margin-top: 10px;
+    color: var(--navy);
+    font-size: var(--fs-lead);
+    font-weight: 700;
+  }
+  .pd-logo {
+    width: 200px;
+    height: auto;
+    flex: 0 0 auto;
+    margin-bottom: 6px;
+  }
+  .pd-summary {
+    margin-top: var(--sp-7);
+    max-width: 760px;
+    color: var(--text-2);
+    font-size: 16.5px;
+    line-height: 1.85;
+  }
+  .pd-actions {
+    margin-top: var(--sp-7);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .shots {
+    margin-top: clamp(48px, 6vw, 76px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 3vw, 40px);
+  }
+  .shot {
+    margin: 0;
+  }
+  .shot-inner {
+    will-change: transform;
+  }
+  .shot :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+  }
+  .shot figcaption {
+    margin-top: var(--sp-4);
+    color: var(--text-2);
+    font-size: 14px;
+    text-align: center;
+  }
+  .pd-note {
+    margin-top: clamp(40px, 5vw, 64px);
+    padding: 20px 22px;
+    max-width: 860px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--navy-line);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    color: var(--text-2);
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+  .pd-note a {
+    color: var(--navy-lit);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── 기준 ─────────────────────────────────────────── */
+  .criteria-section {
+    background: var(--surface-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .cells-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* ── CTA ──────────────────────────────────────────── */
+  .cta-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-6);
+    padding: clamp(28px, 3.5vw, 44px);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+  }
+  .cta-title {
+    font-size: var(--fs-h3);
+  }
+  .cta-body {
+    margin-top: 10px;
+    max-width: 520px;
+    color: var(--text-2);
+    font-size: 15px;
+  }
+
+  @media (max-width: 900px) {
+    .pd-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .pd-logo {
+      order: -1;
+      width: 160px;
+      margin-bottom: 0;
+    }
+    .shots {
+      grid-template-columns: 1fr;
+      max-width: 380px;
+      margin-inline: auto;
+    }
+    .cells-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

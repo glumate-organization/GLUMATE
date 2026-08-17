@@ -1,0 +1,266 @@
+---
+import { Image } from 'astro:assets';
+import { logos } from '../lib/assets';
+import { company } from '../lib/company';
+import { links } from '../lib/links';
+import { getBusinessStatus } from '../lib/business';
+
+const year = new Date().getFullYear();
+// 빌드 시점에 국세청 API로 사업자 상태 조회 (키 없으면 ok:false 폴백)
+const biz = await getBusinessStatus();
+
+const cols = [
+  {
+    title: '회사',
+    links: [
+      { href: '/about', label: '회사 소개' },
+      { href: '/technology', label: '기술' },
+      { href: '/products', label: '제품' },
+      { href: '/contact', label: '문의하기' },
+    ],
+  },
+  {
+    title: '제품',
+    links: [
+      { href: links.glumingSite, label: '글루밍 웹사이트' },
+      { href: links.appStore, label: 'App Store' },
+      { href: links.playStore, label: 'Google Play' },
+    ],
+  },
+  {
+    title: '정책',
+    links: [
+      { href: '/privacy', label: '개인정보처리방침' },
+      { href: links.glumingTerms, label: '글루밍 서비스 이용약관' },
+      { href: links.glumingPrivacy, label: '글루밍 개인정보처리방침' },
+    ],
+  },
+];
+
+const bizLine = [
+  `상호 : ${company.nameKo}`,
+  `대표 : ${company.ceo}`,
+  `사업자등록번호 : ${company.bizNo}`,
+  `통신판매업 신고번호 : ${company.mailOrderNo}`,
+  `주소 : ${company.address}`,
+  `이메일 : ${company.email}`,
+];
+---
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="brand" aria-label="글루메이트 홈">
+        <Image
+          src={logos.horizontalWhite}
+          alt="글루메이트 GLUMATE"
+          width={240}
+          height={44}
+          densities={[1, 2]}
+        />
+      </a>
+      <p class="tagline">{company.slogan}</p>
+    </div>
+
+    {
+      cols.map((col) => (
+        <nav class="footer-col" aria-label={col.title}>
+          <h2>{col.title}</h2>
+          <ul>
+            {col.links.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  {...l.href.startsWith('http')
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {}}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))
+    }
+  </div>
+
+  <div class="container footer-bottom">
+    <ul class="biz">
+      {bizLine.map((v) => <li>{v}</li>)}
+    </ul>
+
+    <div class="biz-verify">
+      {
+        biz.ok && (
+          <span class="biz-confirmed">
+            <span class="biz-check" aria-hidden="true">
+              ✓
+            </span>
+            국세청 사업자등록 상태 — {biz.bStt}
+            {biz.taxType && <span class="biz-tax">({biz.taxType})</span>}
+            <span class="biz-asof">· {biz.checkedAt} 조회 기준</span>
+          </span>
+        )
+      }
+      <a href={links.ntsCheck} target="_blank" rel="noopener noreferrer">사업자등록 조회 ↗</a>
+      <a href={links.ftcCheck} target="_blank" rel="noopener noreferrer">통신판매사업자 조회 ↗</a>
+    </div>
+
+    <p class="disclaimer">
+      글루메이트가 제공하는 서비스는 생활습관 관리를 돕는 웰니스 서비스이며, 의료 행위가 아니고
+      질병의 진단·치료를 대체하지 않습니다. 건강에 관한 판단은 의료 전문가와 상의하세요.
+    </p>
+
+    <p class="copy">© {year} {company.nameKo} ({company.nameEn}). All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    padding: clamp(56px, 7vw, 88px) 0 44px;
+    background: var(--navy-ink);
+    color: var(--on-dark);
+    overflow: hidden;
+  }
+  .footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-dark);
+    background-size: 64px 64px;
+    pointer-events: none;
+  }
+  .footer > * {
+    position: relative;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.7fr repeat(3, 1fr);
+    gap: 44px;
+  }
+  .footer-brand .brand {
+    display: inline-flex;
+  }
+  .footer-brand .brand :global(img) {
+    height: 28px;
+    width: auto;
+  }
+  .tagline {
+    margin-top: 20px;
+    max-width: 360px;
+    color: var(--on-dark-2);
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+  .footer-col h2 {
+    margin-bottom: 18px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 11px;
+  }
+  .footer-col a {
+    color: var(--on-dark-2);
+    font-size: 14px;
+    transition: color var(--dur-1) var(--ease);
+  }
+  .footer-col a:hover {
+    color: #fff;
+  }
+
+  .footer-bottom {
+    margin-top: 56px;
+    padding-top: 26px;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .biz {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 18px;
+    color: var(--on-dark-2);
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .biz li {
+    position: relative;
+  }
+  .biz li:not(:last-child)::after {
+    content: "·";
+    position: absolute;
+    right: -11px;
+    color: rgba(255, 255, 255, 0.28);
+  }
+  .biz-verify {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+  }
+  .biz-verify > a {
+    color: var(--on-dark-2);
+    font-size: 12.5px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(168, 189, 218, 0.4);
+    padding-bottom: 1px;
+    transition: color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
+  }
+  .biz-verify > a:hover {
+    color: #fff;
+    border-color: #fff;
+  }
+  .biz-confirmed {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--r-pill);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .biz-check {
+    color: #7ab6ff;
+    font-weight: 800;
+  }
+  .biz-asof {
+    color: var(--on-dark-2);
+    font-weight: 500;
+  }
+  .disclaimer {
+    margin-top: 22px;
+    max-width: 760px;
+    color: rgba(168, 189, 218, 0.75);
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .copy {
+    margin-top: 18px;
+    color: var(--on-dark-2);
+    font-size: 12.5px;
+  }
+
+  @media (max-width: 860px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+    }
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

@@ -1,0 +1,415 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHead from '../components/SectionHead.astro';
+import { credentials, patentAreas, patentSummary } from '../lib/credentials';
+import { links } from '../lib/links';
+
+const title = '기술 — 글루메이트 (GLUMATE)';
+const description =
+  '글루메이트는 연속혈당측정 데이터를 해석하는 기술로 특허 3건을 출원했습니다. ㈜아이센스와 개발 파트너십을 맺어 센서 데이터를 정식 경로로 연동하고, 청년창업사관학교 16기에 선정되었습니다.';
+
+// 데이터가 지나는 길 — 우리가 실제로 만든 흐름
+const pipeline = [
+  {
+    step: '01',
+    title: '모읍니다',
+    body: '연속혈당측정 센서와 걸음·운동·수면 같은 건강 데이터를 제조사·플랫폼의 공식 경로로 받아옵니다.',
+  },
+  {
+    step: '02',
+    title: '잇습니다',
+    body: '혈당 값 하나만 보지 않고 식사·운동 기록과 시간 축에서 맞물려, 어떤 행동이 어떤 흐름을 만들었는지 연결합니다.',
+  },
+  {
+    step: '03',
+    title: '내다봅니다',
+    body: '개인의 최근 데이터와 운동 강도를 함께 계산해, 앞으로의 흐름이 어떻게 달라질지 미리 그려봅니다.',
+  },
+  {
+    step: '04',
+    title: '전합니다',
+    body: '여러 지표를 하나의 건강 상태로 합치고, 숫자 대신 알아보기 쉬운 표정과 문장으로 바꿔 보여줍니다.',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <!-- ─── 헤더 ─────────────────────────────────────────── -->
+  <section class="page-head">
+    <div class="head-grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <span class="eyebrow intro" style="--i:0">Technology — 기술</span>
+      <h1 class="page-title">
+        <span class="line" style="--i:0"><span>혈당 데이터를</span></span>
+        <span class="line" style="--i:1"><span class="accent">읽는 방법을 만듭니다</span></span>
+      </h1>
+      <p class="page-lead intro" style="--i:1">
+        같은 센서 값을 받아도, 그것을 어떻게 해석하느냐에 따라 사용자에게 남는 것이 달라집니다.
+        글루메이트는 그 해석하는 방법에 대해 <strong>특허 {patentSummary.count}건을 출원</strong>했습니다.
+      </p>
+      <div class="head-tags intro" style="--i:2">
+        <span class="tag">{patentSummary.filedLabel}</span>
+        <span class="tag">{patentSummary.statusLabel}</span>
+        <span class="tag">㈜아이센스 개발 파트너십</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 특허 출원 영역 ───────────────────────────────── -->
+  <section class="section patents">
+    <div class="patents-grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <SectionHead eyebrow="01 — Patents Pending" variant="split" light>
+        출원한 기술 세 가지
+        <Fragment slot="sub">
+          아래는 출원한 기술의 영역을 간단히 옮긴 것입니다.
+          심사가 진행 중이므로 구체적인 청구 범위는 공개하지 않습니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="patent-list" data-reveal="stagger">
+        {
+          patentAreas.map((p) => (
+            <article class="patent">
+              <span class="patent-no">{p.no}</span>
+              <div class="patent-body">
+                <span class="patent-area">{p.area}</span>
+                <h3>{p.title}</h3>
+                <p>{p.body}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="patent-note">{patentSummary.note}</p>
+    </div>
+  </section>
+
+  <!-- ─── 데이터가 지나는 길 ───────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="02 — How It Works" variant="split">
+        데이터가 지나는 길
+        <Fragment slot="sub">
+          센서에서 나온 값이 사용자의 화면에 닿기까지, 우리가 실제로 만든 네 단계입니다.
+        </Fragment>
+      </SectionHead>
+
+      <ol class="pipeline" data-reveal="stagger">
+        {
+          pipeline.map((p) => (
+            <li class="pipe">
+              <span class="pipe-step">{p.step}</span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ─── 파트너십 · 선정 ──────────────────────────────── -->
+  <section class="section cred-section">
+    <div class="container">
+      <SectionHead eyebrow="03 — Partnership" variant="split">
+        바깥에서 확인받은 것
+        <Fragment slot="sub">
+          기술은 스스로 좋다고 말할 때가 아니라, 다른 곳에서 확인받을 때 의미가 생깁니다.
+        </Fragment>
+      </SectionHead>
+
+      <div class="creds" data-reveal="stagger">
+        {
+          credentials.map((c) => (
+            <article class="cred">
+              <div class="cred-top">
+                <span class="cred-kind">{c.kind}</span>
+                <span class="cred-meta">{c.meta}</span>
+              </div>
+              <p class="cred-name">{c.name}</p>
+              <h3 class="cred-title">{c.title}</h3>
+              <p class="cred-body">{c.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 경계 ─────────────────────────────────────────── -->
+  <section class="section-tight boundary">
+    <div class="container boundary-inner" data-reveal>
+      <h2 class="boundary-title">기술이 할 수 있는 일과 없는 일</h2>
+      <p class="boundary-body">
+        글루메이트의 기술은 <strong>생활습관 관리를 돕는 웰니스</strong> 영역에 있습니다.
+        질병을 진단하거나 치료하지 않고, 의료진의 진료를 대체하지 않으며, 특정 수치를 보장하지
+        않습니다. 예측은 참고를 위한 것이며, 건강에 관한 판단은 의료 전문가와 상의하시기 바랍니다.
+      </p>
+      <div class="boundary-actions">
+        <a href="/products" class="btn btn-primary">제품에서 확인하기</a>
+        <a
+          href={links.glumingSite}
+          class="btn btn-ghost"
+          target="_blank"
+          rel="noopener noreferrer">글루밍 웹사이트 ↗</a
+        >
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ── 페이지 헤더 ──────────────────────────────────── */
+  .page-head {
+    position: relative;
+    padding: clamp(56px, 7vw, 92px) 0 clamp(48px, 6vw, 76px);
+    overflow: hidden;
+  }
+  .head-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-light);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 85%);
+    pointer-events: none;
+  }
+  .page-head .container {
+    position: relative;
+  }
+  .page-title {
+    font-size: var(--fs-h1);
+    letter-spacing: -0.042em;
+  }
+  .page-title .accent {
+    color: var(--navy);
+  }
+  .page-lead {
+    margin-top: var(--sp-6);
+    max-width: 660px;
+    color: var(--text-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-body);
+  }
+  .head-tags {
+    margin-top: var(--sp-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    padding: 7px 14px;
+    border: 1px solid var(--navy-line);
+    border-radius: var(--r-pill);
+    background: var(--navy-tint);
+    color: var(--navy);
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  /* ── 특허 ─────────────────────────────────────────── */
+  .patents {
+    position: relative;
+    background: var(--navy-ink);
+    overflow: hidden;
+  }
+  .patents-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: var(--grid-dark);
+    background-size: 64px 64px;
+  }
+  .patents .container {
+    position: relative;
+  }
+  .patent-list {
+    border-top: 1px solid var(--rule-dark);
+  }
+  .patent {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: clamp(16px, 3vw, 40px);
+    padding: clamp(26px, 3vw, 38px) 0;
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  .patent-no {
+    color: rgba(168, 189, 218, 0.55);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+    padding-top: 4px;
+  }
+  .patent-area {
+    display: inline-block;
+    padding: 4px 11px;
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--r-pill);
+    color: #9dc4f5;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .patent-body h3 {
+    margin-top: 14px;
+    color: #fff;
+    font-size: clamp(20px, 2.2vw, 26px);
+  }
+  .patent-body p {
+    margin-top: 12px;
+    max-width: 720px;
+    color: var(--on-dark-2);
+    font-size: 15px;
+    line-height: 1.85;
+  }
+  .patent-note {
+    margin-top: var(--sp-6);
+    color: rgba(168, 189, 218, 0.75);
+    font-size: 13px;
+  }
+
+  /* ── 파이프라인 ───────────────────────────────────── */
+  .pipeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  .pipe {
+    position: relative;
+    padding: var(--sp-6) var(--sp-5) var(--sp-7);
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    transition: background var(--dur-2) var(--ease);
+  }
+  .pipe:hover {
+    background: var(--surface-2);
+  }
+  .pipe-step {
+    display: block;
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+  }
+  .pipe h3 {
+    margin-top: var(--sp-4);
+    font-size: var(--fs-h3);
+  }
+  .pipe p {
+    margin-top: var(--sp-3);
+    color: var(--text-2);
+    font-size: 14.5px;
+    line-height: 1.78;
+  }
+
+  /* ── 파트너십 ─────────────────────────────────────── */
+  .cred-section {
+    background: var(--surface-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .creds {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .cred {
+    padding: clamp(28px, 3.2vw, 40px);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--navy);
+    border-radius: 0 0 var(--r-md) var(--r-md);
+    transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);
+  }
+  .cred:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .cred-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .cred-kind {
+    color: var(--navy);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .cred-meta {
+    color: var(--text-3);
+    font-size: 12.5px;
+  }
+  .cred-name {
+    margin-top: 18px;
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+  }
+  .cred-title {
+    margin-top: 10px;
+    color: var(--navy);
+    font-size: var(--fs-h4);
+  }
+  .cred-body {
+    margin-top: 14px;
+    color: var(--text-2);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  /* ── 경계 ─────────────────────────────────────────── */
+  .boundary-inner {
+    padding: clamp(28px, 3.5vw, 44px);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--navy);
+    border-radius: 0 var(--r-lg) var(--r-lg) 0;
+  }
+  .boundary-title {
+    font-size: var(--fs-h3);
+  }
+  .boundary-body {
+    margin-top: var(--sp-4);
+    max-width: 760px;
+    color: var(--text-2);
+    font-size: 15px;
+    line-height: 1.85;
+  }
+  .boundary-actions {
+    margin-top: var(--sp-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .pipeline {
+      grid-template-columns: 1fr 1fr;
+    }
+    .creds {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .pipeline {
+      grid-template-columns: 1fr;
+    }
+    .patent {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+</style>
