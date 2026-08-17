@@ -18,26 +18,6 @@ const nameStory = [
   { part: 'MATE', desc: '판단해 주는 전문가가 아니라, 옆에서 함께 걷는 친구' },
 ];
 
-// 우리가 지키는 원칙 (회사의 행동 기준)
-const values = [
-  {
-    title: '사람이 먼저입니다',
-    body: '건강은 성과 지표가 아니라 누군가의 하루입니다. 지표를 올리기 위해 사용자를 불안하게 만드는 설계는 하지 않습니다.',
-  },
-  {
-    title: '작게 만들고 오래 고칩니다',
-    body: '한 번에 완벽한 제품은 없다고 생각합니다. 필요한 만큼 작게 만들어 내놓고, 쓰신 분들의 이야기를 들으며 오래 다듬습니다.',
-  },
-  {
-    title: '데이터는 빌려 쓰는 것입니다',
-    body: '건강 데이터는 회사의 자산이 아니라 이용자의 것입니다. 목적에 필요한 만큼만 받고, 필요가 끝나면 지웁니다.',
-  },
-  {
-    title: '모르는 것은 모른다고 씁니다',
-    body: '아직 검증되지 않은 효과를 확신처럼 말하지 않습니다. 근거의 범위와 한계를 함께 적는 편을 택합니다.',
-  },
-];
-
 // 연혁 — 증빙 가능한 사실만 (사업자등록증·통신판매업신고증 기준)
 const history = [
   {
@@ -151,35 +131,10 @@ const history = [
     </div>
   </section>
 
-  <!-- ─── 원칙 ─────────────────────────────────────────── -->
-  <section class="section values-section">
-    <div class="container">
-      <SectionHead eyebrow="02 — Our Values" variant="split">
-        판단이 어려울 때 돌아오는 자리
-        <Fragment slot="sub">
-          제품을 만들다 보면 답이 하나가 아닌 순간이 옵니다.
-          그럴 때 저희는 아래 네 가지로 돌아와 결정합니다.
-        </Fragment>
-      </SectionHead>
-
-      <div class="cells cells-2" data-reveal="stagger">
-        {
-          values.map((v, i) => (
-            <article class="cell">
-              <span class="cell-index">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{v.title}</h3>
-              <p>{v.body}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
   <!-- ─── 연혁 ─────────────────────────────────────────── -->
   <section class="section">
     <div class="container">
-      <SectionHead eyebrow="03 — History" variant="split">
+      <SectionHead eyebrow="02 — History" variant="split">
         걸어온 길
         <Fragment slot="sub">
           짧은 시간이지만, 한 걸음씩 확인 가능한 방식으로 쌓아 왔습니다.
@@ -206,7 +161,7 @@ const history = [
   <!-- ─── 함께하는 곳 ──────────────────────────────────── -->
   <section class="section info-section">
     <div class="container">
-      <SectionHead eyebrow="04 — Together" variant="split">
+      <SectionHead eyebrow="03 — Together" variant="split">
         함께하는 곳
         <Fragment slot="sub">
           기술과 사업의 방향을 바깥에서 확인받으며 만들고 있습니다.
@@ -381,16 +336,6 @@ const history = [
     line-height: 1.85;
   }
 
-  /* ── 원칙 ─────────────────────────────────────────── */
-  .values-section {
-    background: var(--surface-2);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-  .cells-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   /* ── 연혁 ─────────────────────────────────────────── */
   .timeline {
     list-style: none;
@@ -507,9 +452,6 @@ const history = [
 
   @media (max-width: 860px) {
     .name-grid {
-      grid-template-columns: 1fr;
-    }
-    .cells-2 {
       grid-template-columns: 1fr;
     }
     .tl-item {

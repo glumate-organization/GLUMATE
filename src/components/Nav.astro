@@ -39,8 +39,6 @@ const isActive = (href: string) => path === href || path === `${href}/`;
         ))
       }
     </nav>
-
-    <a href={url('/contact')} class="btn btn-primary nav-cta">문의하기</a>
   </div>
 
   <!-- 페이지 스크롤 진행률 -->
@@ -78,7 +76,6 @@ const isActive = (href: string) => path === href || path === `${href}/`;
     display: flex;
     align-items: center;
     gap: 4px;
-    margin-right: auto;
   }
   .nav-link {
     position: relative;
@@ -107,18 +104,9 @@ const isActive = (href: string) => path === href || path === `${href}/`;
     background: var(--navy);
     border-radius: 2px;
   }
-  .nav-cta {
-    flex: 0 0 auto;
-    padding: 10px 20px;
-    font-size: 14px;
-  }
-
   @media (max-width: 900px) {
     .nav-inner {
       gap: var(--sp-4);
-    }
-    .nav-cta {
-      display: none;
     }
     .nav-link {
       padding: 8px 10px;

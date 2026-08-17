@@ -11,22 +11,6 @@ const description =
   '글루메이트가 만드는 제품을 소개합니다. 첫 번째 제품은 연속혈당측정(CGM) 데이터와 일상의 기록을 이어 생활습관 관리를 돕는 웰니스 앱 글루밍입니다.';
 
 const gluming = products[0];
-
-// 제품을 만들 때 지키는 기준.
-const criteria = [
-  {
-    title: '데이터가 저절로 모일 것',
-    body: '직접 적어야만 쌓이는 기록은 오래가지 못합니다. 센서와 건강 데이터 연동으로 기록의 부담을 먼저 덜어냅니다.',
-  },
-  {
-    title: '해석까지 해줄 것',
-    body: '그래프를 띄우는 데서 끝내지 않습니다. 그 값이 어제의 식사·운동과 어떻게 이어지는지를 말로 풀어 보여줍니다.',
-  },
-  {
-    title: '내일도 열게 될 것',
-    body: '캐릭터와 미션처럼 부담 없는 장치로 매일의 습관을 잇습니다. 재미는 목적이 아니라 지속을 위한 수단입니다.',
-  },
-];
 ---
 
 <Layout title={title} description={description}>
@@ -114,30 +98,6 @@ const criteria = [
           개인정보처리방침
         </a>에서 확인하실 수 있습니다.
       </p>
-    </div>
-  </section>
-
-  <!-- ─── 제품 기준 ────────────────────────────────────── -->
-  <section class="section criteria-section">
-    <div class="container">
-      <SectionHead eyebrow="Our Standard" variant="split">
-        제품을 만들 때 지키는 기준
-        <Fragment slot="sub">
-          아래 세 가지를 통과하지 못하면 만들지 않습니다.
-        </Fragment>
-      </SectionHead>
-
-      <div class="cells cells-3" data-reveal="stagger">
-        {
-          criteria.map((c, i) => (
-            <article class="cell">
-              <span class="cell-index">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{c.title}</h3>
-              <p>{c.body}</p>
-            </article>
-          ))
-        }
-      </div>
     </div>
   </section>
 
@@ -298,16 +258,6 @@ const criteria = [
     text-underline-offset: 3px;
   }
 
-  /* ── 기준 ─────────────────────────────────────────── */
-  .criteria-section {
-    background: var(--surface-2);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-  .cells-3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   /* ── CTA ──────────────────────────────────────────── */
   .cta-inner {
     display: flex;
@@ -344,9 +294,6 @@ const criteria = [
       grid-template-columns: 1fr;
       max-width: 380px;
       margin-inline: auto;
-    }
-    .cells-3 {
-      grid-template-columns: 1fr;
     }
   }
 </style>

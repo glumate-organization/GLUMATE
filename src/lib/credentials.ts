@@ -63,7 +63,7 @@ export const credentials: Credential[] = [
     key: 'startup-academy',
     kind: 'Selected',
     name: '청년창업사관학교 16기',
-    title: '외부에서 한 번 더 확인받았습니다',
+    title: '창업 지원 프로그램',
     body: '중소벤처기업진흥공단이 운영하는 청년창업사관학교 16기에 선정되었습니다.',
     meta: '중소벤처기업진흥공단',
   },
