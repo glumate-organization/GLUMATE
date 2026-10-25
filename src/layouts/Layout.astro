@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import { company } from '../lib/company';
 import { url } from '../lib/url';
 import { seo } from '../lib/seo';
+import { products } from '../lib/assets';
 
 interface Props {
   title?: string;
@@ -25,25 +26,59 @@ const canonical = new URL(Astro.url.pathname, origin).href;
 const { ogImage = new URL(url('/og.png'), origin).href } = Astro.props;
 
 // 검색엔진에 회사 정보를 구조화해 전달한다 (신뢰 정보의 기계 판독 가능한 사본).
-const orgJsonLd = {
+// Organization · WebSite · WebPage 를 @id 로 묶은 @graph 하나로 낸다.
+// WebSite.name 은 구글 검색결과 상단의 '사이트 이름'으로 쓰인다.
+const home = new URL(url('/'), origin).href;
+const orgId = `${home}#organization`;
+const siteId = `${home}#website`;
+const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: `${company.nameKo} (${company.nameEn})`,
-  alternateName: company.nameEn,
-  url: new URL(url('/'), origin).href,
-  logo: new URL(url('/favicon.png'), origin).href,
-  email: company.email,
-  slogan: company.slogan,
-  foundingDate: company.foundedISO,
-  founder: { '@type': 'Person', name: company.ceo },
-  taxID: company.bizNo,
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'KR',
-    addressRegion: '대전광역시',
-    addressLocality: '대덕구',
-    streetAddress: company.addressShort,
-  },
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': orgId,
+      name: company.nameKo,
+      alternateName: [company.nameEn, `${company.nameKo} (${company.nameEn})`],
+      legalName: company.legalName,
+      url: home,
+      logo: new URL(url('/favicon.png'), origin).href,
+      email: company.email,
+      slogan: company.slogan,
+      foundingDate: company.foundedISO,
+      founder: { '@type': 'Person', name: company.ceo },
+      taxID: company.bizNo,
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'KR',
+        addressRegion: '대전광역시',
+        addressLocality: '대덕구',
+        streetAddress: company.addressShort,
+      },
+      // 회사가 만드는 제품 브랜드 — 제품 사이트(gluming.app)와 같은 주체임을 잇는다.
+      brand: products
+        .filter((p) => p.site)
+        .map((p) => ({ '@type': 'Brand', name: p.name, alternateName: p.nameEn, url: p.site })),
+    },
+    {
+      '@type': 'WebSite',
+      '@id': siteId,
+      name: company.nameKo,
+      alternateName: [company.nameEn, `${company.nameKo} ${company.nameEn}`],
+      url: home,
+      inLanguage: 'ko-KR',
+      publisher: { '@id': orgId },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: 'ko-KR',
+      isPartOf: { '@id': siteId },
+      about: { '@id': orgId },
+    },
+  ],
 };
 ---
 
@@ -82,7 +117,7 @@ const orgJsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} is:inline />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} is:inline />
 
     <!-- 모션 CSS는 html.js 안에서만 요소를 숨긴다.
          이 한 줄이 실행되지 않으면(=JS 꺼짐) 모든 콘텐츠가 처음부터 그냥 보인다. -->

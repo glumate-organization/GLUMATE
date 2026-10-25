@@ -1,16 +1,18 @@
 // 사이트맵을 빌드 시점에 생성한다 (외부 통합 패키지 없이).
 // 페이지를 추가하면 아래 배열에 한 줄만 더하면 된다.
+// 경로는 끝 슬래시까지 적는다 — 실제 서빙 URL·canonical 이 /about/ 형태라서,
+// 슬래시가 없으면 사이트맵의 모든 URL이 301 리다이렉트를 거친다.
 
 import type { APIRoute } from 'astro';
 import { company } from '../lib/company';
 
 const routes: { path: string; priority: string; changefreq: string }[] = [
   { path: '/', priority: '1.0', changefreq: 'monthly' },
-  { path: '/about', priority: '0.9', changefreq: 'monthly' },
-  { path: '/technology', priority: '0.9', changefreq: 'monthly' },
-  { path: '/products', priority: '0.9', changefreq: 'monthly' },
-  { path: '/contact', priority: '0.7', changefreq: 'yearly' },
-  { path: '/privacy', priority: '0.4', changefreq: 'yearly' },
+  { path: '/about/', priority: '0.9', changefreq: 'monthly' },
+  { path: '/technology/', priority: '0.9', changefreq: 'monthly' },
+  { path: '/products/', priority: '0.9', changefreq: 'monthly' },
+  { path: '/contact/', priority: '0.7', changefreq: 'yearly' },
+  { path: '/privacy/', priority: '0.4', changefreq: 'yearly' },
 ];
 
 export const GET: APIRoute = ({ site }) => {
@@ -22,7 +24,7 @@ export const GET: APIRoute = ({ site }) => {
   const urls = routes
     .map(
       (r) => `  <url>
-    <loc>${origin}${base}${r.path === '/' ? '/' : r.path}</loc>
+    <loc>${origin}${base}${r.path}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>
