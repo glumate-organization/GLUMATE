@@ -40,31 +40,103 @@ export const patentSummary = {
   note: '특허 출원 3건 — 모두 심사 진행 중이며, 등록 여부가 확정된 권리는 아닙니다.',
 };
 
-/** 파트너십 · 선정 이력 */
-export interface Credential {
+/** 지식재산 현황 — 상태를 정확히 나눠 적는다. 출원(filed)은 심사 중, 등록(registered)만 확정된 권리. */
+export interface IpItem {
   key: string;
   kind: string;
-  name: string;
-  title: string;
-  body: string;
-  meta: string;
+  en: string;
+  count: number;
+  status: 'filed' | 'registered';
+  statusLabel: string;
+  /** 공개해도 되는 범위의 한 줄. 출원번호·명세 내용은 적지 않는다. */
+  scope?: string;
 }
 
-export const credentials: Credential[] = [
-  {
-    key: 'isens',
-    kind: 'Partnership',
-    name: '㈜아이센스',
-    title: '연속혈당측정 센서 제조사와 함께합니다',
-    body: '케어센스 에어(CareSens Air)를 만드는 ㈜아이센스와 개발 파트너십을 맺었습니다.',
-    meta: '개발 파트너십 체결',
-  },
+export const ipPortfolio = {
+  asOf: '2026년 10월 기준',
+  items: [
+    {
+      key: 'patent',
+      kind: '특허',
+      en: 'Patent',
+      count: 3,
+      status: 'filed',
+      statusLabel: '출원 · 심사 진행 중',
+      scope: '혈당 예측과 건강 상태 해석 기술',
+    },
+    {
+      key: 'trademark',
+      kind: '상표',
+      en: 'Trademark',
+      count: 3,
+      status: 'filed',
+      statusLabel: '출원 · 심사 진행 중',
+    },
+    {
+      key: 'design',
+      kind: '디자인',
+      en: 'Design',
+      count: 2,
+      status: 'filed',
+      statusLabel: '출원 · 심사 진행 중',
+    },
+    {
+      key: 'copyright',
+      kind: '저작권',
+      en: 'Copyright',
+      count: 4,
+      status: 'registered',
+      statusLabel: '등록 완료',
+      scope: '글루밍즈 캐릭터 4종',
+    },
+  ] as IpItem[],
+};
+
+export const ipTotals = {
+  all: ipPortfolio.items.reduce((n, i) => n + i.count, 0),
+  filed: ipPortfolio.items.filter((i) => i.status === 'filed').reduce((n, i) => n + i.count, 0),
+  registered: ipPortfolio.items
+    .filter((i) => i.status === 'registered')
+    .reduce((n, i) => n + i.count, 0),
+};
+
+/** 선정 · 파트너십 — 엠블럼 상패로 보여준다. */
+export interface Honor {
+  key: string;
+  emblem: 'laurel' | 'seal';
+  /** 엠블럼 가운데 새기는 짧은 표기 */
+  mark: string;
+  org: string;
+  title: string;
+  sub: string;
+  date: string;
+}
+
+export const honors: Honor[] = [
   {
     key: 'startup-academy',
-    kind: 'Selected',
-    name: '청년창업사관학교 16기',
-    title: '창업 지원 프로그램',
-    body: '중소벤처기업진흥공단이 운영하는 청년창업사관학교 16기에 선정되었습니다.',
-    meta: '중소벤처기업진흥공단',
+    emblem: 'laurel',
+    mark: '16',
+    org: '중소벤처기업진흥공단',
+    title: '청년창업사관학교 16기 선정',
+    sub: '창업 지원 프로그램',
+    date: '2026.03',
+  },
+  {
+    key: 'isens',
+    emblem: 'seal',
+    mark: 'i-SENS',
+    org: '㈜아이센스',
+    title: '개발 파트너십 체결',
+    sub: '케어센스 에어 데이터 연동 · 센서 공급 협력',
+    date: '2026.07',
   },
 ];
+
+/** 입주 — 상패보다 한 단계 낮춰 한 줄로 둔다. */
+export const residency = {
+  name: '대전소셜벤처캠퍼스',
+  role: '입주기업',
+  org: '대전창조경제혁신센터',
+  since: '2026.11',
+};

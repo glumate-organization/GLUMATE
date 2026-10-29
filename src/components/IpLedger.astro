@@ -1,0 +1,314 @@
+---
+// 지식재산 대장 — 위에는 전체 건수를 칸으로 나눈 막대(점선 칸 = 출원, 채운 칸 = 등록),
+// 아래에는 종류별 행. 출원과 등록을 같은 무게로 섞어 보이지 않게 상태를 칸 모양으로 구분한다.
+// 화면에 들어오면 칸이 왼쪽부터 차례로 찍힌다 (CSS 스크롤 타임라인, JS 0). 미지원·모션 줄이기에선 완성 상태.
+import { ipPortfolio, ipTotals } from '../lib/credentials';
+
+let n = 0;
+const groups = ipPortfolio.items.map((item) => ({
+  ...item,
+  cells: Array.from({ length: item.count }, () => n++),
+}));
+---
+
+<div class="ip">
+  <div class="ip-head">
+    <div class="ip-total">
+      <p class="ip-kicker">Intellectual Property</p>
+      <p class="ip-num">
+        <span>{ipTotals.all}</span>건
+      </p>
+      <p class="ip-split">출원 {ipTotals.filed} · 등록 {ipTotals.registered}</p>
+    </div>
+
+    <div class="ip-bar" aria-hidden="true">
+      {
+        groups.map((g) => (
+          <div class="ip-group" style={`--n:${g.count}`}>
+            <div class="ip-cells">
+              {g.cells.map((c) => (
+                <span class:list={['ip-cell', `is-${g.status}`]} style={`--c:${c}`} />
+              ))}
+            </div>
+            <span class="ip-group-label">
+              {g.kind} {g.count}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <ol class="ip-rows">
+    {
+      groups.map((g) => (
+        <li class="ip-row">
+          <p class="ip-kind">
+            {g.kind}
+            <span>{g.en}</span>
+          </p>
+          <p class="ip-count">
+            {g.count}
+            <span>건</span>
+          </p>
+          <p class:list={['ip-status', `is-${g.status}`]}>{g.statusLabel}</p>
+          <p class="ip-scope">{g.scope ?? ''}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="ip-foot">
+    <span class="ip-legend">
+      <i class="ip-cell is-filed" aria-hidden="true"></i>출원 · 심사 진행 중
+    </span>
+    <span class="ip-legend">
+      <i class="ip-cell is-registered" aria-hidden="true"></i>등록 완료
+    </span>
+    <span class="ip-asof">{ipPortfolio.asOf}</span>
+  </div>
+  <p class="ip-note">
+    출원 건은 심사가 진행 중이며, 등록 여부가 확정된 권리가 아닙니다. 출원번호와 세부 내용은 공개하지 않습니다.
+  </p>
+</div>
+
+<style>
+  .ip {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--navy);
+    border-radius: 0 0 var(--r-md) var(--r-md);
+  }
+
+  /* ── 머리: 총계 + 칸 막대 ── */
+  .ip-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--sp-8);
+    align-items: end;
+    padding: var(--sp-7);
+    border-bottom: 1px solid var(--rule);
+    background-image: var(--grid-light);
+    background-size: 32px 32px;
+  }
+  .ip-kicker {
+    color: var(--navy);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .ip-num {
+    margin-top: var(--sp-2);
+    color: var(--navy);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .ip-num span {
+    font-size: var(--fs-display);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+  .ip-split {
+    margin-top: var(--sp-3);
+    color: var(--text-2);
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ip-bar {
+    display: flex;
+    gap: var(--sp-4);
+  }
+  .ip-group {
+    flex: var(--n) 1 0;
+    min-width: 0;
+  }
+  .ip-cells {
+    display: flex;
+    gap: var(--sp-1);
+  }
+  .ip-cell {
+    display: block;
+    flex: 1;
+    height: 44px;
+    border-radius: 2px;
+  }
+  .ip-cell.is-filed {
+    border: 1.5px dashed var(--navy);
+    background: var(--navy-tint);
+  }
+  .ip-cell.is-registered {
+    border: 1.5px solid var(--navy);
+    background: var(--navy);
+  }
+  .ip-group-label {
+    display: block;
+    margin-top: var(--sp-2);
+    padding-top: var(--sp-2);
+    border-top: 1px solid var(--rule-strong);
+    color: var(--text-2);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ── 행 ── */
+  .ip-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--sp-7);
+  }
+  .ip-row {
+    display: grid;
+    grid-template-columns: 160px 96px 180px minmax(0, 1fr);
+    gap: var(--sp-5);
+    align-items: baseline;
+    padding: var(--sp-5) 0;
+  }
+  .ip-row + .ip-row {
+    border-top: 1px solid var(--rule);
+  }
+  .ip-kind {
+    color: var(--text);
+    font-size: var(--fs-h4);
+    font-weight: 700;
+  }
+  .ip-kind span {
+    margin-left: var(--sp-2);
+    color: var(--text-3);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .ip-count {
+    color: var(--navy);
+    font-size: var(--fs-h2);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .ip-count span {
+    margin-left: 2px;
+    font-size: var(--fs-sm);
+    font-weight: 700;
+  }
+  .ip-status {
+    justify-self: start;
+    padding: 4px 11px;
+    border-radius: var(--r-pill);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .ip-status.is-filed {
+    border: 1px dashed var(--navy-line);
+    color: var(--navy);
+  }
+  .ip-status.is-registered {
+    background: var(--navy);
+    color: #fff;
+  }
+  .ip-scope {
+    color: var(--text-2);
+    font-size: var(--fs-sm);
+  }
+
+  /* ── 범례 ── */
+  .ip-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-2) var(--sp-5);
+    padding: var(--sp-4) var(--sp-7);
+    border-top: 1px solid var(--rule);
+    background: var(--surface-2);
+    color: var(--text-2);
+    font-size: var(--fs-xs);
+  }
+  .ip-legend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+  .ip-legend .ip-cell {
+    flex: none;
+    width: 14px;
+    height: 14px;
+  }
+  .ip-asof {
+    margin-left: auto;
+    color: var(--text-3);
+  }
+  .ip-note {
+    padding: 0 var(--sp-7) var(--sp-4);
+    background: var(--surface-2);
+    color: var(--text-3);
+    font-size: var(--fs-xs);
+    line-height: 1.7;
+  }
+
+  /* ── 칸이 차례로 찍힌다 ── */
+  @keyframes stamp {
+    from {
+      opacity: 0;
+      transform: scaleY(0.2);
+    }
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .ip-head {
+        view-timeline-name: --ip;
+      }
+      .ip-bar .ip-cell {
+        transform-origin: bottom;
+        animation: stamp linear both;
+        animation-timeline: --ip;
+        animation-range: entry calc(30% + var(--c) * 4%) entry calc(45% + var(--c) * 4%);
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .ip-head {
+      grid-template-columns: 1fr;
+      gap: var(--sp-6);
+      padding: var(--sp-6) var(--sp-5);
+    }
+    .ip-rows {
+      padding: 0 var(--sp-5);
+    }
+    .ip-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--sp-2) var(--sp-4);
+    }
+    .ip-status {
+      grid-column: 1;
+    }
+    .ip-scope {
+      grid-column: 1 / -1;
+    }
+    .ip-scope:empty {
+      display: none;
+    }
+    .ip-foot,
+    .ip-note {
+      padding-inline: var(--sp-5);
+    }
+    .ip-asof {
+      margin-left: 0;
+    }
+  }
+  @media (max-width: 560px) {
+    .ip-bar {
+      gap: var(--sp-2);
+    }
+    .ip-cell {
+      height: 32px;
+    }
+  }
+</style>

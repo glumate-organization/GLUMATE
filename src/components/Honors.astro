@@ -1,0 +1,284 @@
+---
+// 선정 · 파트너십 상패 — 네이비 잉크 면 위에 엠블럼(월계수 / 인장) + 기관 · 제목.
+// 화면에 들어오면 월계수 잎이 아래에서 위로 한 장씩 돋고, 인장 테두리가 그려진다 (CSS 스크롤 타임라인, JS 0).
+// 미지원 브라우저·모션 줄이기 설정에서는 처음부터 완성된 모습으로 보인다.
+// 입주(residency)는 상패보다 한 단계 낮춰 맨 아래 한 줄로 둔다.
+import { honors, residency } from '../lib/credentials';
+
+// 월계수 한쪽 가지 — 반지름 46 원호의 왼쪽(아래 240° → 위 110°)을 따라 잎 7장. 반대쪽은 좌우 반전.
+const R = 46;
+const leaves = Array.from({ length: 7 }, (_, i) => {
+  const deg = 240 - i * 21.5;
+  const rad = (deg * Math.PI) / 180;
+  return {
+    i,
+    x: 60 + R * Math.cos(rad),
+    y: 60 - R * Math.sin(rad),
+    rot: 90 - deg - 28,
+    size: 1 - i * 0.06,
+  };
+});
+---
+
+<div class="honors">
+  {
+    honors.map((h) => (
+      <article class="honor">
+        <div class:list={['emblem', `is-${h.emblem}`]} aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="112" height="112">
+            {h.emblem === 'laurel' ? (
+              <>
+                {[1, -1].map((side) => (
+                  <g transform={side === -1 ? 'translate(120 0) scale(-1 1)' : undefined}>
+                    <path class="stem" d="M44.3 103.2 A46 46 0 0 1 48.1 15.6" fill="none" />
+                    {leaves.map((l) => (
+                      <g transform={`translate(${l.x.toFixed(1)} ${l.y.toFixed(1)}) rotate(${l.rot})`}>
+                        <ellipse
+                          class="leaf"
+                          style={`--i:${l.i}`}
+                          rx={(9 * l.size).toFixed(1)}
+                          ry={(4.2 * l.size).toFixed(1)}
+                        />
+                      </g>
+                    ))}
+                  </g>
+                ))}
+                <text x="60" y="68" text-anchor="middle" class="mark mark-lg">
+                  {h.mark}
+                </text>
+              </>
+            ) : (
+              <>
+                <defs>
+                  <path id={`ring-${h.key}`} d="M60 60 m-40 0 a40 40 0 1 1 80 0 a40 40 0 1 1 -80 0" />
+                </defs>
+                <circle class="ring" pathLength="1" cx="60" cy="60" r="52" fill="none" />
+                <circle class="ring-inner" cx="60" cy="60" r="30" fill="none" />
+                <text class="ring-text">
+                  <textPath href={`#ring-${h.key}`} startOffset="0">
+                    DEVELOPMENT PARTNERSHIP · CGM ·
+                  </textPath>
+                </text>
+                <text x="60" y="64" text-anchor="middle" class="mark mark-sm">
+                  {h.mark}
+                </text>
+              </>
+            )}
+          </svg>
+        </div>
+        <div class="honor-text">
+          <p class="honor-org">
+            {h.org}
+            <span class="honor-date">{h.date}</span>
+          </p>
+          <h3 class="honor-title">{h.title}</h3>
+          <p class="honor-sub">{h.sub}</p>
+        </div>
+      </article>
+    ))
+  }
+  <p class="residency">
+    <span class="residency-dot" aria-hidden="true"></span>
+    <span class="residency-name">{residency.name} {residency.role}</span>
+    <span class="residency-meta">{residency.org} 운영 · {residency.since} 입주</span>
+  </p>
+</div>
+
+<style>
+  .honors {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--navy-ink);
+    color: var(--on-dark);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .honors::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--grid-dark);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+  .honor {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+    padding: var(--sp-7) var(--sp-7);
+  }
+  .honor + .honor {
+    border-left: 1px solid var(--rule-dark);
+  }
+
+  /* ── 엠블럼 ── */
+  .emblem {
+    flex: none;
+    color: var(--on-dark-accent);
+  }
+  .emblem svg {
+    display: block;
+    width: 104px;
+    height: auto;
+    overflow: visible;
+  }
+  .stem {
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    opacity: 0.7;
+  }
+  .leaf {
+    fill: currentColor;
+    transform-origin: 0 0;
+  }
+  .ring {
+    stroke: currentColor;
+    stroke-width: 1.6;
+  }
+  .ring-inner {
+    stroke: currentColor;
+    stroke-width: 0.8;
+    stroke-dasharray: 2 3;
+    opacity: 0.55;
+  }
+  .ring-text {
+    fill: currentColor;
+    font-size: 8.4px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+  }
+  .mark {
+    fill: var(--on-dark);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .mark-lg {
+    font-size: 26px;
+  }
+  .mark-sm {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── 글 ── */
+  .honor-org {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-2) var(--sp-3);
+    color: var(--on-dark-2);
+    font-size: var(--fs-sm);
+  }
+  .honor-date {
+    padding: 2px 9px;
+    border: 1px solid var(--rule-dark);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-xs);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+  .honor-title {
+    margin-top: var(--sp-2);
+    color: #fff;
+    font-size: var(--fs-h3);
+    letter-spacing: -0.035em;
+  }
+  .honor-sub {
+    margin-top: var(--sp-1);
+    color: var(--on-dark-2);
+    font-size: var(--fs-sm);
+  }
+
+  /* ── 입주 한 줄 — 두 칸 아래 전체 폭, 작게 ── */
+  .residency {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-1) var(--sp-3);
+    padding: var(--sp-4) var(--sp-7);
+    border-top: 1px solid var(--rule-dark);
+    font-size: var(--fs-xs);
+  }
+  .residency-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--on-dark-accent);
+  }
+  .residency-name {
+    color: var(--on-dark);
+    font-weight: 600;
+  }
+  .residency-meta {
+    color: var(--on-dark-2);
+  }
+
+  /* ── 스크롤에 맞춰 엠블럼이 완성된다 ── */
+  @keyframes leaf-grow {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+  @keyframes ring-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .honor {
+        view-timeline-name: --honor;
+      }
+      .leaf {
+        animation: leaf-grow linear both;
+        animation-timeline: --honor;
+        animation-range: entry calc(10% + var(--i) * 7%) entry calc(40% + var(--i) * 7%);
+      }
+      .ring {
+        stroke-dasharray: 1;
+        animation: ring-draw linear both;
+        animation-timeline: --honor;
+        animation-range: entry 15% entry 85%;
+      }
+      .honor-text {
+        animation: rise linear both;
+        animation-timeline: --honor;
+        animation-range: entry 30% entry 75%;
+      }
+    }
+  }
+
+  @media (max-width: 860px) {
+    .honors {
+      grid-template-columns: 1fr;
+    }
+    .honor {
+      padding: var(--sp-6) var(--sp-5);
+      gap: var(--sp-5);
+    }
+    .honor + .honor {
+      border-left: 0;
+      border-top: 1px solid var(--rule-dark);
+    }
+    .emblem svg {
+      width: 84px;
+    }
+    .residency {
+      padding: var(--sp-4) var(--sp-5);
+    }
+  }
+</style>

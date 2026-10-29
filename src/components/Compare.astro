@@ -1,0 +1,257 @@
+---
+// 같은 하루를 두 방식으로 나란히 — "기록하고 나중에 돌아보기" vs "고르기 전에 미리 살펴보기".
+// 차이는 '언제 알게 되느냐'다. 수치·눈금 값은 넣지 않은 개념도다.
+// 선은 화면에 들어오면 그려진다 (CSS 스크롤 타임라인, JS 0). 미지원·모션 줄이기에선 완성 상태.
+---
+
+<div class="compare">
+  <figure class="pane is-before">
+    <figcaption class="pane-head">
+      <span class="pane-kicker">지금까지의 방식</span>
+      <span class="pane-title">수치는 보이지만, 행동으로 이어지기 어렵습니다</span>
+    </figcaption>
+    <svg viewBox="0 0 400 240" role="img" aria-label="행동이 끝난 뒤 그래프를 확인하는 방식의 개념도">
+      <line class="axis" x1="20" y1="196" x2="380" y2="196" />
+      <rect class="past" x="20" y="40" width="270" height="156" />
+      <path
+        class="line"
+        pathLength="1"
+        d="M20 160 C60 160 80 156 104 146 C134 132 146 70 176 66 C206 62 214 134 246 142 C270 148 282 150 290 150"
+      />
+      <line class="mark-line" x1="104" y1="196" x2="104" y2="146" />
+      <circle class="dot hollow" cx="104" cy="146" r="5" />
+      <text class="cap" x="104" y="216" text-anchor="middle">행동</text>
+      <line class="when" x1="320" y1="40" x2="320" y2="196" />
+      <rect class="pill" x="282" y="204" width="76" height="24" rx="12" />
+      <text class="pill-txt" x="320" y="220" text-anchor="middle">여기서 확인</text>
+      <text class="cap" x="155" y="30" text-anchor="middle">이미 지나간 구간</text>
+    </svg>
+    <p class="pane-body">
+      그래프는 대개 일이 끝난 뒤에 열어 보게 됩니다. 무엇이 영향을 줬는지는 짐작으로 남고,
+      그래서 무엇을 하면 좋을지는 여전히 사용자의 몫으로 남습니다.
+    </p>
+  </figure>
+
+  <figure class="pane is-after">
+    <figcaption class="pane-head">
+      <span class="pane-kicker">글루메이트의 방식</span>
+      <span class="pane-title">고르기 전에, 흐름을 미리 살펴봅니다</span>
+    </figcaption>
+    <svg viewBox="0 0 400 240" role="img" aria-label="행동하기 전에 선택지별 예상 흐름을 나란히 살펴보는 방식의 개념도">
+      <line class="axis" x1="20" y1="196" x2="380" y2="196" />
+      <path class="line" pathLength="1" d="M20 160 C60 160 80 156 104 146" />
+      <path class="ahead a" d="M104 146 C140 128 160 72 196 70 C232 68 250 132 290 140 C320 146 350 148 380 148" />
+      <path class="ahead b" d="M104 146 C140 136 166 104 200 102 C236 100 256 140 290 146 C320 150 350 150 380 150" />
+      <rect class="pill" x="200" y="56" width="66" height="22" rx="11" />
+      <text class="pill-txt" x="233" y="71" text-anchor="middle">선택 A</text>
+      <rect class="pill" x="214" y="108" width="66" height="22" rx="11" />
+      <text class="pill-txt" x="247" y="123" text-anchor="middle">선택 B</text>
+      <line class="when" x1="104" y1="40" x2="104" y2="196" />
+      <circle class="dot" cx="104" cy="146" r="6" />
+      <rect class="pill solid" x="66" y="204" width="76" height="24" rx="12" />
+      <text class="pill-txt on" x="104" y="220" text-anchor="middle">여기서 고름</text>
+      <text class="cap accent" x="242" y="30" text-anchor="middle">미리 그려 보는 구간</text>
+    </svg>
+    <p class="pane-body">
+      식사나 운동을 하기 전에, 선택지마다 예상되는 흐름을 나란히 보여 줍니다.
+      판단은 사용자가 하고, 우리는 참고할 수 있는 그림을 건넵니다.
+    </p>
+  </figure>
+
+  <p class="compare-note">이해를 돕기 위한 개념도이며 실제 측정값이나 예측 결과가 아닙니다.</p>
+</div>
+
+<style>
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .pane {
+    margin: 0;
+    padding: var(--sp-7);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+  .pane + .pane {
+    border-left: 1px solid var(--rule);
+  }
+  .is-before {
+    background: var(--surface-2);
+  }
+  .is-after {
+    background-image: var(--grid-light);
+    background-size: 32px 32px;
+  }
+  .pane-head {
+    display: grid;
+    gap: var(--sp-2);
+  }
+  .pane-kicker {
+    color: var(--text-3);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .is-after .pane-kicker {
+    color: var(--navy);
+  }
+  .pane-title {
+    color: var(--text);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: var(--lh-title);
+    word-break: keep-all;
+  }
+  .pane svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    font-family: var(--font-sans);
+  }
+  .pane-body {
+    color: var(--text-2);
+    font-size: var(--fs-sm);
+    line-height: 1.8;
+  }
+  .compare-note {
+    grid-column: 1 / -1;
+    padding: var(--sp-3) var(--sp-7);
+    border-top: 1px solid var(--rule);
+    color: var(--text-3);
+    font-size: var(--fs-xs);
+  }
+
+  /* ── 도식 ── */
+  .axis {
+    stroke: var(--rule-strong);
+  }
+  .past {
+    fill: var(--rule);
+    opacity: 0.45;
+  }
+  .line {
+    fill: none;
+    stroke: var(--text-3);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+  }
+  .is-after .line {
+    stroke: var(--navy);
+  }
+  .ahead {
+    fill: none;
+    stroke: var(--navy);
+    stroke-width: 2;
+    stroke-dasharray: 5 6;
+    stroke-linecap: round;
+  }
+  .ahead.b {
+    stroke: var(--navy-lit);
+    opacity: 0.7;
+  }
+  .when {
+    stroke: var(--text-3);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+  }
+  .is-after .when {
+    stroke: var(--navy);
+  }
+  .mark-line {
+    stroke: var(--rule-strong);
+    stroke-dasharray: 2 3;
+  }
+  .dot {
+    fill: var(--surface);
+    stroke: var(--navy);
+    stroke-width: 2;
+  }
+  .dot.hollow {
+    stroke: var(--text-3);
+  }
+  .pill {
+    fill: var(--surface);
+    stroke: var(--rule-strong);
+  }
+  .is-after .pill {
+    stroke: var(--navy-line);
+  }
+  .pill.solid {
+    fill: var(--navy);
+    stroke: var(--navy);
+  }
+  .pill-txt {
+    fill: var(--text-2);
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+  .is-after .pill-txt {
+    fill: var(--navy);
+  }
+  .is-after .pill-txt.on {
+    fill: #fff;
+  }
+  .cap {
+    fill: var(--text-3);
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+  .cap.accent {
+    fill: var(--navy);
+  }
+
+  /* ── 화면에 들어오면 선이 그려진다 ── */
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .pane svg {
+        view-timeline-name: --pane;
+      }
+      .line {
+        stroke-dasharray: 1;
+        animation: draw linear both;
+        animation-timeline: --pane;
+        animation-range: entry 20% cover 45%;
+      }
+      .ahead,
+      .is-after .pill:not(.solid),
+      .is-after .pill-txt:not(.on) {
+        animation: appear linear both;
+        animation-timeline: --pane;
+        animation-range: cover 35% cover 55%;
+      }
+    }
+  }
+
+  @media (max-width: 860px) {
+    .compare {
+      grid-template-columns: 1fr;
+    }
+    .pane {
+      padding: var(--sp-6) var(--sp-5);
+    }
+    .pane + .pane {
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+    }
+    .compare-note {
+      padding: var(--sp-3) var(--sp-5);
+    }
+  }
+</style>

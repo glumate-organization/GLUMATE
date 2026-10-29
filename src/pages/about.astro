@@ -3,9 +3,9 @@ import { Image } from 'astro:assets';
 import { url } from '../lib/url';
 import Layout from '../layouts/Layout.astro';
 import SectionHead from '../components/SectionHead.astro';
+import Honors from '../components/Honors.astro';
 import { logos } from '../lib/assets';
-import { company } from '../lib/company';
-import { credentials, patentSummary } from '../lib/credentials';
+import { patentSummary, residency } from '../lib/credentials';
 import { links } from '../lib/links';
 
 const title = '회사 소개 — 글루메이트 (GLUMATE)';
@@ -50,6 +50,11 @@ const history = [
     title: '글루밍 정식 출시',
     body: 'App Store와 Google Play에 웰니스 앱 글루밍을 정식 출시했습니다.',
   },
+  {
+    date: residency.since,
+    title: `${residency.name} 입주`,
+    body: `${residency.org}가 운영하는 ${residency.name}에 입주했습니다.`,
+  },
 ];
 ---
 
@@ -58,7 +63,7 @@ const history = [
   <section class="page-head">
     <div class="head-grid-bg" aria-hidden="true"></div>
     <div class="container">
-      <span class="eyebrow intro" style="--i:0">About — 회사 소개</span>
+      <span class="eyebrow intro" style="--i:0">About · 회사 소개</span>
       <h1 class="page-title">
         <span class="line" style="--i:0"><span>건강하게 사는 일이</span></span>
         <span class="line" style="--i:1"><span class="accent">조금 더 쉬워지도록</span></span>
@@ -87,14 +92,14 @@ const history = [
         더 많은 사람들이 건강하게 살 수 있는 세상을 만들기 위해<br class="br-lg" />
         최선을 다하는 회사입니다.
       </blockquote>
-      <p class="statement-by">— 글루메이트가 일하는 이유</p>
+      <p class="statement-by">글루메이트가 일하는 이유</p>
     </div>
   </section>
 
   <!-- ─── 이름의 뜻 ────────────────────────────────────── -->
   <section class="section">
     <div class="container">
-      <SectionHead eyebrow="01 — Our Name" variant="split">
+      <SectionHead eyebrow="01 · Our Name" variant="split">
         이름에 담은 것
         <Fragment slot="sub">
           글루메이트(GLUMATE)라는 이름은 우리가 어떤 태도로 일할지를 먼저 정해 둔 약속입니다.
@@ -111,7 +116,7 @@ const history = [
             height={117}
             densities={[1, 2]}
           />
-          <p class="name-cap">GM — Glumate 심볼</p>
+          <p class="name-cap">GM · Glumate 심볼</p>
         </div>
         <dl class="name-parts">
           {
@@ -134,7 +139,7 @@ const history = [
   <!-- ─── 연혁 ─────────────────────────────────────────── -->
   <section class="section">
     <div class="container">
-      <SectionHead eyebrow="02 — History" variant="split">
+      <SectionHead eyebrow="02 · History" variant="split">
         걸어온 길
         <Fragment slot="sub">
           짧은 시간이지만, 한 걸음씩 확인 가능한 방식으로 쌓아 왔습니다.
@@ -144,7 +149,7 @@ const history = [
       <ol class="timeline" data-reveal="stagger">
         {
           history.map((h) => (
-            <li class:list={['tl-item', { 'is-upcoming': h.upcoming }]}>
+            <li class="tl-item">
               <span class="tl-dot" aria-hidden="true" />
               <span class="tl-date">{h.date}</span>
               <div class="tl-body">
@@ -161,33 +166,20 @@ const history = [
   <!-- ─── 함께하는 곳 ──────────────────────────────────── -->
   <section class="section info-section">
     <div class="container">
-      <SectionHead eyebrow="03 — Together" variant="split">
+      <SectionHead eyebrow="03 · Together" variant="split">
         함께하는 곳
         <Fragment slot="sub">
           기술과 사업의 방향을 바깥에서 확인받으며 만들고 있습니다.
-          자세한 내용은 <a href={url('/technology')}>기술 페이지</a>에 정리했습니다.
+          특허를 비롯한 지식재산은 <a href={url('/technology')}>기술 페이지</a>에 정리했습니다.
         </Fragment>
       </SectionHead>
 
-      <div class="creds" data-reveal="stagger">
-        {
-          credentials.map((c) => (
-            <article class="cred">
-              <span class="cred-kind">{c.kind}</span>
-              <p class="cred-name">{c.name}</p>
-              <p class="cred-meta">{c.meta}</p>
-            </article>
-          ))
-        }
-        <article class="cred">
-          <span class="cred-kind">Patents Pending</span>
-          <p class="cred-name">특허 출원 {patentSummary.count}건</p>
-          <p class="cred-meta">{patentSummary.filedLabel} · {patentSummary.statusLabel}</p>
-        </article>
+      <div data-reveal>
+        <Honors />
       </div>
 
       <div class="info-actions">
-        <a href={url('/contact')} class="btn btn-primary">찾아오시는 길 · 문의</a>
+        <a href={url('/contact')} class="btn btn-primary">문의 · 찾아오시는 길</a>
         <a
           href={links.glumingSite}
           class="btn btn-ghost"
@@ -379,9 +371,6 @@ const history = [
     border: 2px solid var(--bg);
     box-shadow: 0 0 0 1px var(--navy);
   }
-  .is-upcoming .tl-dot {
-    background: var(--bg);
-  }
   .tl-date {
     color: var(--navy);
     font-size: 15px;
@@ -389,9 +378,6 @@ const history = [
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.01em;
     padding-top: 2px;
-  }
-  .is-upcoming .tl-date {
-    color: var(--text-3);
   }
   .tl-body h3 {
     font-size: var(--fs-h4);
@@ -408,41 +394,6 @@ const history = [
     background: var(--surface-2);
     border-top: 1px solid var(--rule);
   }
-  .creds {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  .cred {
-    padding: clamp(24px, 3vw, 34px);
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-top: 3px solid var(--navy);
-    border-radius: 0 0 var(--r-md) var(--r-md);
-    transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-2) var(--ease);
-  }
-  .cred:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-  }
-  .cred-kind {
-    color: var(--navy);
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .cred-name {
-    margin-top: 16px;
-    font-size: clamp(19px, 2vw, 23px);
-    font-weight: 800;
-    letter-spacing: -0.035em;
-  }
-  .cred-meta {
-    margin-top: 8px;
-    color: var(--text-2);
-    font-size: 14px;
-  }
   .info-actions {
     margin-top: var(--sp-7);
     display: flex;
@@ -457,9 +408,6 @@ const history = [
     .tl-item {
       grid-template-columns: 1fr;
       gap: 6px;
-    }
-    .creds {
-      grid-template-columns: 1fr;
     }
   }
 </style>

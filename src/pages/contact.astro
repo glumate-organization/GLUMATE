@@ -1,34 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { company } from '../lib/company';
-import { links } from '../lib/links';
+import { mailto } from '../lib/mail';
 
 const title = '문의 — 글루메이트 (GLUMATE)';
 const description =
-  '글루메이트 연락처입니다. 이메일과 카카오톡 채널로 문의하실 수 있으며, 사무실은 대전 한남대학교 캠퍼스혁신파크에 있습니다.';
+  '글루메이트 문의는 이메일(glumate@glumate.org)로 받습니다. 사무실은 대전 한남대학교 캠퍼스혁신파크에 있습니다.';
 
 const mapQuery = encodeURIComponent('한남대학교 캠퍼스혁신파크');
 
-// 연락처는 이 한 덩어리가 전부다. 문의 유형 안내·응대 약속 같은 군더더기는 두지 않는다.
-const rows = [
-  {
-    label: '이메일',
-    value: company.email,
-    href: `mailto:${company.email}`,
-  },
-  {
-    label: '카카오톡 채널',
-    value: '글루밍 채널',
-    href: links.kakaoChannel,
-    external: true,
-  },
-  {
-    label: '주소',
-    value: company.address,
-    href: `https://map.naver.com/p/search/${mapQuery}`,
-    external: true,
-    linkLabel: '지도에서 보기',
-  },
+// 문의 창구는 메일 하나다. 유형마다 제목을 미리 채워 두어 받는 쪽에서 바로 분류된다.
+const topics = [
+  { label: '제휴 · 협업', desc: '기술 협력, 데이터 연동, 공동 사업 제안', subject: '제휴·협업 문의' },
+  { label: '투자 · 언론', desc: '회사 소개 자료, 인터뷰와 취재 요청', subject: '투자·언론 문의' },
+  { label: '그 밖의 문의', desc: '어디에 해당할지 모르겠다면 여기로', subject: '일반 문의' },
 ];
 ---
 
@@ -40,41 +25,43 @@ const rows = [
       <h1 class="page-title">
         <span class="line" style="--i:0"><span>문의</span></span>
       </h1>
+      <p class="page-lead intro" style="--i:1">
+        {company.email}로 문의 메일을 보내 주시면 빠르게 답해 드릴게요.
+      </p>
 
-      <div class="card intro" style="--i:1">
-        <dl>
+      <div class="grid intro" style="--i:2">
+        <div class="mail-card">
+          <p class="mail-label">이메일</p>
+          <a class="mail-addr" href={mailto('문의')}>{company.email}</a>
+          <a class="btn btn-primary" href={mailto('문의')}>메일 보내기</a>
+
+          <div class="addr">
+            <p class="mail-label">주소</p>
+            <p class="addr-val">{company.address}</p>
+            <a
+              class="sub-link"
+              href={`https://map.naver.com/p/search/${mapQuery}`}
+              target="_blank"
+              rel="noopener noreferrer">지도에서 보기 ↗</a
+            >
+          </div>
+        </div>
+
+        <ul class="topics" aria-label="문의 유형">
           {
-            rows.map((r) => (
-              <div class="row">
-                <dt>{r.label}</dt>
-                <dd>
-                  {r.linkLabel ? (
-                    <>
-                      <span class="val">{r.value}</span>
-                      <a
-                        class="sub-link"
-                        href={r.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {r.linkLabel} ↗
-                      </a>
-                    </>
-                  ) : (
-                    <a
-                      class="val val-link"
-                      href={r.href}
-                      {...r.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
-                    >
-                      {r.value}
-                      {r.external && ' ↗'}
-                    </a>
-                  )}
-                </dd>
-              </div>
+            topics.map((t) => (
+              <li>
+                <a class="topic" href={mailto(t.subject)}>
+                  <span class="topic-text">
+                    <span class="topic-label">{t.label}</span>
+                    <span class="topic-desc">{t.desc}</span>
+                  </span>
+                  <span class="topic-go">메일 쓰기 →</span>
+                </a>
+              </li>
             ))
           }
-        </dl>
+        </ul>
       </div>
     </div>
   </section>
@@ -102,68 +89,116 @@ const rows = [
     font-size: var(--fs-h1);
     letter-spacing: -0.042em;
   }
+  .page-lead {
+    margin-top: var(--sp-5);
+    max-width: var(--measure);
+    color: var(--text-2);
+    font-size: var(--fs-lead);
+  }
 
-  .card {
+  .grid {
     margin-top: var(--sp-8);
-    max-width: 620px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--sp-6);
+    align-items: start;
+  }
+
+  .mail-card {
+    padding: var(--sp-7);
     background: var(--surface);
     border: 1px solid var(--rule);
     border-top: 3px solid var(--navy);
     border-radius: 0 0 var(--r-md) var(--r-md);
-    padding: 4px clamp(20px, 3vw, 32px);
   }
-  .card dl {
-    margin: 0;
+  .mail-label {
+    color: var(--text-3);
+    font-size: var(--fs-xs);
+    font-weight: 600;
   }
-  .row {
-    display: grid;
-    grid-template-columns: 128px minmax(0, 1fr);
-    gap: var(--sp-5);
-    align-items: baseline;
-    padding: 22px 0;
+  .mail-addr {
+    display: block;
+    margin: var(--sp-2) 0 var(--sp-5);
+    color: var(--navy);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    word-break: break-all;
   }
-  .row + .row {
+  .mail-addr:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .addr {
+    margin-top: var(--sp-6);
+    padding-top: var(--sp-5);
     border-top: 1px solid var(--rule);
   }
-  .row dt {
-    color: var(--text-3);
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .row dd {
-    margin: 0;
-  }
-  .val {
-    display: block;
+  .addr-val {
+    margin-top: var(--sp-2);
     color: var(--text);
-    font-size: 16.5px;
-    font-weight: 600;
-    line-height: 1.6;
-    word-break: keep-all;
-  }
-  .val-link {
-    color: var(--navy);
-    transition: color var(--dur-1) var(--ease);
-  }
-  .val-link:hover {
-    color: var(--navy-lit);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    font-size: var(--fs-sm);
+    line-height: 1.7;
   }
   .sub-link {
     display: inline-block;
-    margin-top: 10px;
+    margin-top: var(--sp-2);
     color: var(--navy-lit);
-    font-size: 13.5px;
+    font-size: var(--fs-xs);
     font-weight: 600;
     border-bottom: 1px solid currentColor;
-    padding-bottom: 1px;
   }
 
-  @media (max-width: 560px) {
-    .row {
+  .topics {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--text);
+  }
+  .topics li {
+    border-bottom: 1px solid var(--rule);
+  }
+  .topic {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-5);
+    padding: var(--sp-5) var(--sp-2);
+    transition: background var(--dur-1) var(--ease);
+  }
+  .topic:hover {
+    background: var(--surface);
+  }
+  .topic-text {
+    display: grid;
+    gap: var(--sp-1);
+  }
+  .topic-label {
+    color: var(--text);
+    font-size: var(--fs-h4);
+    font-weight: 700;
+  }
+  .topic-desc {
+    color: var(--text-2);
+    font-size: var(--fs-sm);
+  }
+  .topic-go {
+    flex: none;
+    color: var(--navy);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    transition: transform var(--dur-1) var(--ease);
+  }
+  .topic:hover .topic-go {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 860px) {
+    .grid {
       grid-template-columns: 1fr;
-      gap: 6px;
+    }
+    .mail-card {
+      padding: var(--sp-6) var(--sp-5);
     }
   }
 </style>

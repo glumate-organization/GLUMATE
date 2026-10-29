@@ -18,11 +18,11 @@ Node 22 이상.
 
 | 경로 | 내용 |
 | --- | --- |
-| `/` | 홈 — 슬로건, 숫자, 기술(핀 스크롤), 파트너십, 제품, 문의 |
+| `/` | 홈 — 슬로건, 선정·파트너십 상패, 기술(핀 스크롤), 기존 방식 비교, 제품, 메일 문의 |
 | `/about` | 회사 소개 — 미션, 이름의 뜻, 가치, 연혁, 함께하는 곳 |
-| `/technology` | 기술 — 특허 출원 3건, 데이터 파이프라인, 파트너십, 경계 |
+| `/technology` | 기술 — 특허 출원 영역, 지식재산 대장, 데이터 파이프라인(스크롤 단계), 경계 |
 | `/products` | 제품 — 글루밍 상세, 제품 기준 |
-| `/contact` | 문의 — 연락 창구, 문의 유형, 찾아오시는 길 |
+| `/contact` | 문의 — 메일(유형별 제목 자동 입력), 찾아오시는 길 |
 | `/privacy` | 기업 웹사이트 개인정보처리방침 |
 | `/sitemap.xml` | 빌드 시 생성 (페이지 추가 시 `src/pages/sitemap.xml.ts` 배열에 한 줄 추가) |
 
@@ -60,11 +60,12 @@ src/
 │   ├── brand/      로고 원본 PNG (가로/세로 × 네이비/화이트, GM 심볼)
 │   ├── fonts/      PretendardVariable.woff2 (self-host)
 │   └── product/    글루밍 로고 · 앱 스크린샷
-├── components/     Nav · Footer · SectionHead
+├── components/     Nav · Footer · SectionHead · Honors(상패) · IpLedger(지식재산) · Compare · ScrollSteps
 ├── layouts/        Layout.astro (메타 · JSON-LD · 모션 부트)
 ├── lib/
 │   ├── company.ts      회사 정보 단일 출처 (증빙 서류 기재값)
-│   ├── credentials.ts  특허 출원 영역 · 파트너십 · 선정 이력
+│   ├── credentials.ts  특허 출원 영역 · 지식재산 현황 · 선정·파트너십 · 입주
+│   ├── mail.ts         제목을 채운 문의 mailto
 │   ├── assets.ts       이미지 · 제품 목록
 │   ├── links.ts        외부 링크 단일 출처
 │   └── business.ts     국세청 사업자등록 상태 조회 (빌드 타임)

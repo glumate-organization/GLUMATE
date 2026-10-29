@@ -37,6 +37,7 @@
   --text-3: #8a93a1;
   --on-dark: #eef3fa;
   --on-dark-2: #a8bdda;
+  --on-dark-accent: #9dc4f5; /* 다크 면의 엠블럼·태그 강조 */
 
   /* ── 선 ─────────────────────────────────── */
   --rule: #e0e6ee;
