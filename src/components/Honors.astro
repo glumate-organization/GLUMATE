@@ -1,5 +1,6 @@
 ---
-// 선정 · 파트너십 상패 — 네이비 잉크 면 위에 엠블럼(월계수 / 인장) + 기관 · 제목.
+// 수상 · 선정 · 파트너십 상패 — 네이비 잉크 면 위에 엠블럼(메달 / 월계수 / 인장) + 기관 · 제목.
+// featured(대상)는 맨 위 전체 폭으로 한 단계 크게 둔다.
 // 화면에 들어오면 월계수 잎이 아래에서 위로 한 장씩 돋고, 인장 테두리가 그려진다 (CSS 스크롤 타임라인, JS 0).
 // 미지원 브라우저·모션 줄이기 설정에서는 처음부터 완성된 모습으로 보인다.
 // 입주(residency)는 상패보다 한 단계 낮춰 맨 아래 한 줄로 둔다.
@@ -23,10 +24,24 @@ const leaves = Array.from({ length: 7 }, (_, i) => {
 <div class="honors">
   {
     honors.map((h) => (
-      <article class="honor">
+      <article class:list={['honor', { 'is-featured': h.featured }]}>
         <div class:list={['emblem', `is-${h.emblem}`]} aria-hidden="true">
           <svg viewBox="0 0 120 120" width="112" height="112">
-            {h.emblem === 'laurel' ? (
+            {h.emblem === 'medal' ? (
+              <>
+                <path class="ribbon" d="M46 80 L34 114 L45 108 L52 116 L60 86 Z" />
+                <path class="ribbon" d="M74 80 L86 114 L75 108 L68 116 L60 86 Z" />
+                <circle class="medal-face" cx="60" cy="50" r="40" />
+                <circle class="ring" pathLength="1" cx="60" cy="50" r="40" fill="none" />
+                <circle class="ring-inner" cx="60" cy="50" r="32" fill="none" />
+                <text x="60" y="44" text-anchor="middle" class="medal-kicker">
+                  1st
+                </text>
+                <text x="60" y="64" text-anchor="middle" class="mark mark-md">
+                  {h.mark}
+                </text>
+              </>
+            ) : h.emblem === 'laurel' ? (
               <>
                 {[1, -1].map((side) => (
                   <g transform={side === -1 ? 'translate(120 0) scale(-1 1)' : undefined}>
@@ -110,8 +125,30 @@ const leaves = Array.from({ length: 7 }, (_, i) => {
     gap: var(--sp-6);
     padding: var(--sp-7) var(--sp-7);
   }
-  .honor + .honor {
+  .honor + .honor:not(.is-featured) {
     border-left: 1px solid var(--rule-dark);
+  }
+  /* 대상 — 전체 폭, 한 단계 크게. 아래 두 상패와 선으로 나뉜다 */
+  .honor.is-featured {
+    grid-column: 1 / -1;
+    padding-block: var(--sp-8);
+    border-bottom: 1px solid var(--rule-dark);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 70%);
+  }
+  .honor.is-featured + .honor {
+    border-left: 0;
+  }
+  .is-featured .emblem svg {
+    width: 132px;
+  }
+  .is-featured .honor-title {
+    font-size: var(--fs-h2);
+  }
+  .is-featured .honor-sub {
+    margin-top: var(--sp-2);
+    max-width: 560px;
+    font-size: var(--fs-body);
+    line-height: 1.7;
   }
 
   /* ── 엠블럼 ── */
@@ -160,6 +197,22 @@ const leaves = Array.from({ length: 7 }, (_, i) => {
   }
   .mark-lg {
     font-size: 26px;
+  }
+  .mark-md {
+    font-size: 21px;
+  }
+  .medal-face {
+    fill: rgba(255, 255, 255, 0.06);
+  }
+  .medal-kicker {
+    fill: currentColor;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+  }
+  .ribbon {
+    fill: currentColor;
+    opacity: 0.55;
   }
   .mark-sm {
     font-size: 11px;
@@ -270,9 +323,18 @@ const leaves = Array.from({ length: 7 }, (_, i) => {
       padding: var(--sp-6) var(--sp-5);
       gap: var(--sp-5);
     }
-    .honor + .honor {
+    .honor + .honor:not(.is-featured) {
       border-left: 0;
       border-top: 1px solid var(--rule-dark);
+    }
+    .honor.is-featured {
+      padding-block: var(--sp-6);
+    }
+    .is-featured .emblem svg {
+      width: 96px;
+    }
+    .is-featured .honor-title {
+      font-size: var(--fs-h3);
     }
     .emblem svg {
       width: 84px;

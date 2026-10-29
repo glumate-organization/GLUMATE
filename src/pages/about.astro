@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro';
 import SectionHead from '../components/SectionHead.astro';
 import Honors from '../components/Honors.astro';
 import { logos } from '../lib/assets';
-import { patentSummary, residency } from '../lib/credentials';
+import { patentSummary } from '../lib/credentials';
 import { links } from '../lib/links';
 
 const title = '회사 소개 — 글루메이트 (GLUMATE)';
@@ -31,11 +31,6 @@ const history = [
     body: '중소벤처기업진흥공단이 운영하는 청년창업사관학교 16기에 선정되었습니다.',
   },
   {
-    date: '2026.04',
-    title: '캠퍼스혁신파크 입주',
-    body: '한남대학교 캠퍼스혁신파크로 사무실을 옮기고 제품 개발에 들어갔습니다.',
-  },
-  {
     date: '2026.06',
     title: `특허 ${patentSummary.count}건 출원`,
     body: '혈당 예측과 건강 상태 해석에 관한 기술 3건을 특허 출원했습니다. 현재 심사가 진행 중입니다.',
@@ -51,9 +46,9 @@ const history = [
     body: 'App Store와 Google Play에 웰니스 앱 글루밍을 정식 출시했습니다.',
   },
   {
-    date: residency.since,
-    title: `${residency.name} 입주`,
-    body: `${residency.org}가 운영하는 ${residency.name}에 입주했습니다.`,
+    date: '2026.10',
+    title: '장대 웰니스 메이커스 대상 수상',
+    body: '대전시 장대 웰니스 메이커스 프로그램에서 대상(1위)을 받고, 대전시와 함께 지역 시민을 위한 혈당 관리 프로그램을 운영하고 있습니다.',
   },
 ];
 ---

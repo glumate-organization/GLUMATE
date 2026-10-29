@@ -13,7 +13,7 @@ import { mailto } from '../lib/mail';
 
 const title = '글루메이트 (GLUMATE) — 더 많은 사람들이 건강하게 살 수 있는 세상을';
 const description =
-  '글루메이트는 연속혈당측정 데이터를 일상의 행동으로 잇는 헬스케어 소프트웨어 회사입니다. 특허·상표·디자인 출원과 캐릭터 저작권 등록으로 기술과 브랜드를 지키고, ㈜아이센스와 개발 파트너십을 맺었으며, 청년창업사관학교 16기에 선정되었습니다.';
+  '글루메이트는 연속혈당측정 데이터를 일상의 행동으로 잇는 헬스케어 소프트웨어 회사입니다. 대전시 장대 웰니스 메이커스 대상을 받았고, 특허·상표·디자인 출원과 캐릭터 저작권 등록으로 기술과 브랜드를 지키고, ㈜아이센스와 개발 파트너십을 맺었으며, 청년창업사관학교 16기에 선정되었습니다.';
 
 // 히어로 제목 — 줄 단위로 마스크 리빌된다
 const heroLines = ['더 많은 사람들이', '건강하게 살 수 있는', '세상을 만듭니다'];
@@ -74,7 +74,8 @@ const gluming = products[0];
       <SectionHead eyebrow="01 · Recognition" variant="split">
         바깥에서 먼저 확인받았습니다
         <Fragment slot="sub">
-          공공 창업 지원 프로그램에 선정되었고, 연속혈당측정 센서를 만드는 회사와 함께 개발하고 있습니다.
+          대전시 웰니스 프로그램에서 대상을 받았고, 공공 창업 지원 프로그램에 선정되었으며,
+          연속혈당측정 센서를 만드는 회사와 함께 개발하고 있습니다.
         </Fragment>
       </SectionHead>
       <div data-reveal>
@@ -115,7 +116,7 @@ const gluming = products[0];
           <ul class="tech-ip">
             {
               ipPortfolio.items.map((i) => (
-                <li class:list={{ 'is-registered': i.status === 'registered' }}>
+                <li>
                   <span>{i.kind}</span>
                   <b>{i.count}</b>
                   <em>{i.status === 'registered' ? '등록' : '출원'}</em>
@@ -426,16 +427,11 @@ const gluming = products[0];
   .tech-ip em {
     justify-self: end;
     padding: 1px 8px;
-    border: 1px dashed var(--rule-dark);
+    border: 1px solid var(--rule-dark);
     border-radius: var(--r-pill);
     font-size: 11px;
     font-style: normal;
     font-weight: 700;
-  }
-  .tech-ip .is-registered em {
-    border: 1px solid var(--on-dark-accent);
-    background: var(--on-dark-accent);
-    color: var(--navy-ink);
   }
 
   /* ── 제품 ─────────────────────────────────────────── */

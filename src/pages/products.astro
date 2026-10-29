@@ -1,16 +1,37 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import SectionHead from '../components/SectionHead.astro';
 import { products } from '../lib/assets';
 import { links } from '../lib/links';
 
 const title = '제품 — 글루메이트 (GLUMATE)';
 const description =
-  '글루메이트가 만드는 제품을 소개합니다. 첫 번째 제품은 연속혈당측정(CGM) 데이터와 일상의 기록을 이어 생활습관 관리를 돕는 웰니스 앱 글루밍입니다.';
+  '글루메이트의 핵심 서비스, 웰니스 앱 글루밍을 소개합니다. 연속혈당측정(CGM) 데이터와 일상의 기록을 이어, 식사와 운동을 고르기 전에 흐름을 미리 살펴보고 작은 습관을 이어 가도록 돕습니다.';
 
-// 제품의 기능·화면 같은 서비스 내용은 제품 사이트(gluming.app)에 둔다.
-// 여기(회사 사이트)는 "무엇을 만들고 있는지"만 알리고 넘긴다.
+// 기능의 자세한 설명·화면은 제품 사이트(gluming.app)에 둔다.
+// 여기(회사 사이트)는 글루밍이 무엇이 다른지와, 어디에서 쓰이고 있는지만 보여준다.
 const gluming = products[0];
+// 사이트 전체에서 이 화면(14일 리포트)은 여기서만 쓴다. 홈은 홈·시뮬레이션 화면을 쓴다.
+const shot = gluming.shots![2];
+
+const values = [
+  {
+    en: 'Before',
+    title: '고르기 전에, 흐름을 미리',
+    body: '먹거나 움직이기 전에, 선택지마다 예상되는 흐름을 나란히 보여 줍니다. 지난 그래프를 돌아보는 데서 멈추지 않고 다음 선택에 쓸 수 있는 그림을 건넵니다.',
+  },
+  {
+    en: 'Now',
+    title: '지금 해 볼 수 있는 한 가지',
+    body: '흐름이 오르는 것이 보이면, 가벼운 산책처럼 지금 바로 할 수 있는 행동을 제안합니다. 해야 할 일의 목록이 아니라 지금 하나를 고르게 돕습니다.',
+  },
+  {
+    en: 'Every day',
+    title: '매일 이어지는 작은 습관',
+    body: '개인 패턴에 맞춘 작은 미션과 포인트, 메이트의 응원으로 실천이 하루에서 끝나지 않고 이어지도록 설계했습니다.',
+  },
+];
 ---
 
 <Layout title={title} description={description}>
@@ -23,57 +44,110 @@ const gluming = products[0];
         <span class="line" style="--i:1"><span class="accent">하루의 선택으로</span></span>
       </h1>
 
-      <article class="card intro" style="--i:1">
-        <div class="card-head">
-          <div>
+      <article class="feature intro" style="--i:1">
+        <div class="card">
+          <div class="card-head">
             <span class="status">{gluming.statusLabel}</span>
-            <h2 class="name">
-              {gluming.name}<span class="en">{gluming.nameEn}</span>
-            </h2>
-            <p class="tagline">{gluming.tagline}</p>
+            {
+              gluming.logo && (
+                <Image
+                  class="logo"
+                  src={gluming.logo}
+                  alt="글루밍 로고"
+                  width={260}
+                  height={76}
+                  densities={[1, 2]}
+                />
+              )
+            }
           </div>
-          {
-            gluming.logo && (
-              <Image
-                class="logo"
-                src={gluming.logo}
-                alt="글루밍 로고"
-                width={260}
-                height={76}
-                densities={[1, 2]}
-              />
-            )
-          }
+          <h2 class="name">
+            {gluming.name}<span class="en">{gluming.nameEn}</span>
+          </h2>
+          <p class="tagline">{gluming.tagline}</p>
+          <p class="summary">{gluming.summary}</p>
+
+          <ul class="facts">
+            <li><span>데이터</span>케어센스 에어 연속혈당 연동</li>
+            <li><span>플랫폼</span>App Store · Google Play</li>
+            <li><span>현장</span>대전시 지역 시민 프로그램 운영</li>
+          </ul>
+
+          <div class="actions">
+            <a
+              href={links.glumingSite}
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener noreferrer">gluming.app 바로가기 ↗</a
+            >
+            <a
+              href={links.appStore}
+              class="btn btn-ghost"
+              target="_blank"
+              rel="noopener noreferrer">App Store ↗</a
+            >
+            <a
+              href={links.playStore}
+              class="btn btn-ghost"
+              target="_blank"
+              rel="noopener noreferrer">Google Play ↗</a
+            >
+          </div>
         </div>
 
-        <p class="summary">{gluming.summary}</p>
-
-        <p class="pointer">
-          더 자세히 보고 싶으시면 제품 사이트 gluming.app에서 확인하실 수 있습니다.
-        </p>
-
-        <div class="actions">
-          <a
-            href={links.glumingSite}
-            class="btn btn-primary"
-            target="_blank"
-            rel="noopener noreferrer">gluming.app 바로가기 ↗</a
-          >
-          <a
-            href={links.appStore}
-            class="btn btn-ghost"
-            target="_blank"
-            rel="noopener noreferrer">App Store ↗</a
-          >
-          <a
-            href={links.playStore}
-            class="btn btn-ghost"
-            target="_blank"
-            rel="noopener noreferrer">Google Play ↗</a
-          >
-        </div>
+        <figure class="stage">
+          <div class="phone">
+            <Image
+              src={shot.img}
+              alt={`글루밍 앱 화면, ${shot.caption}`}
+              width={300}
+              densities={[1, 2]}
+              loading="eager"
+            />
+          </div>
+          <figcaption>{shot.caption}</figcaption>
+        </figure>
       </article>
+    </div>
+  </section>
 
+  <!-- ─── 글루밍이 다른 점 ─────────────────────────────── -->
+  <section class="section values-section">
+    <div class="container">
+      <SectionHead eyebrow="Why Gluming" variant="split">
+        글루밍이 다른 점
+        <Fragment slot="sub">
+          수치를 더 많이 보여 주는 대신, 보고 난 다음에 무엇을 할지까지 이어지도록 만들었습니다.
+        </Fragment>
+      </SectionHead>
+
+      <ol class="values" data-reveal="stagger">
+        {
+          values.map((v, i) => (
+            <li class="value">
+              <p class="value-no">
+                {String(i + 1).padStart(2, '0')}
+                <span>{v.en}</span>
+              </p>
+              <h3>{v.title}</h3>
+              <p class="value-body">{v.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ─── 현장에서 ─────────────────────────────────────── -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="field" data-reveal>
+        <p class="field-kicker">In the field · 2026.10</p>
+        <p class="field-text">
+          글루밍은 앱 밖에서도 쓰이고 있습니다. 대전시 장대 웰니스 메이커스 대상 수상 이후,
+          대전시와 함께 지역 시민을 위한 혈당 관리 프로그램을 운영하고 있습니다.
+        </p>
+      </div>
       <p class="note">
         글루밍은 생활습관 관리를 돕는 웰니스 서비스입니다. 질병을 진단하거나 치료하지 않으며,
         의료진의 진료를 대체하지 않습니다.
@@ -85,7 +159,7 @@ const gluming = products[0];
 <style>
   .page {
     position: relative;
-    padding: clamp(56px, 7vw, 92px) 0 clamp(72px, 9vw, 120px);
+    padding: clamp(56px, 7vw, 92px) 0 var(--section-y);
     overflow: hidden;
   }
   .page-grid-bg {
@@ -108,20 +182,25 @@ const gluming = products[0];
     color: var(--navy);
   }
 
-  .card {
+  /* ── 대표 카드 + 화면 ── */
+  .feature {
     margin-top: var(--sp-8);
-    max-width: 760px;
-    padding: clamp(28px, 3.4vw, 40px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
     background: var(--surface);
     border: 1px solid var(--rule);
     border-top: 3px solid var(--navy);
-    border-radius: 0 0 var(--r-md) var(--r-md);
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    overflow: hidden;
+  }
+  .card {
+    padding: var(--sp-8) var(--sp-7);
   }
   .card-head {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: var(--sp-6);
+    gap: var(--sp-5);
   }
   .status {
     display: inline-flex;
@@ -132,7 +211,7 @@ const gluming = products[0];
     border-radius: var(--r-pill);
     background: var(--navy-tint);
     color: var(--navy);
-    font-size: 12px;
+    font-size: var(--fs-xs);
     font-weight: 700;
   }
   .status::before {
@@ -142,65 +221,189 @@ const gluming = products[0];
     border-radius: 50%;
     background: var(--navy);
   }
+  .logo {
+    width: 128px;
+    height: auto;
+  }
   .name {
-    margin-top: var(--sp-4);
-    font-size: clamp(26px, 3.4vw, 38px);
+    margin-top: var(--sp-5);
+    font-size: var(--fs-h1);
     letter-spacing: -0.045em;
   }
   .en {
-    margin-left: 11px;
+    margin-left: 12px;
     color: var(--text-3);
-    font-size: 0.52em;
+    font-size: 0.45em;
     font-weight: 600;
     letter-spacing: 0;
   }
   .tagline {
-    margin-top: 8px;
+    margin-top: var(--sp-2);
     color: var(--navy);
-    font-size: var(--fs-h4);
+    font-size: var(--fs-h3);
     font-weight: 700;
-  }
-  .logo {
-    width: 150px;
-    height: auto;
-    flex: 0 0 auto;
-    margin-top: 4px;
+    letter-spacing: -0.03em;
   }
   .summary {
-    margin-top: var(--sp-6);
-    color: var(--text-2);
-    font-size: 15.5px;
-    line-height: 1.85;
-  }
-  .pointer {
     margin-top: var(--sp-5);
-    padding-top: var(--sp-5);
+    color: var(--text-2);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-body);
+  }
+  .facts {
+    list-style: none;
+    margin: var(--sp-6) 0 0;
+    padding: 0;
     border-top: 1px solid var(--rule);
+  }
+  .facts li {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: var(--sp-4);
+    padding: var(--sp-3) 0;
+    border-bottom: 1px solid var(--rule);
     color: var(--text);
-    font-size: 15px;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+  }
+  .facts span {
+    color: var(--text-3);
+    font-weight: 600;
   }
   .actions {
-    margin-top: var(--sp-5);
+    margin-top: var(--sp-6);
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
   }
+
+  .stage {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-4);
+    padding: var(--sp-7) var(--sp-5);
+    background-color: var(--navy-tint);
+    background-image: var(--grid-light);
+    background-size: 32px 32px;
+    border-left: 1px solid var(--rule);
+  }
+  .phone {
+    width: min(100%, 260px);
+    padding: 8px;
+    background: var(--text);
+    border-radius: 34px;
+    box-shadow: var(--shadow-lg);
+  }
+  .phone :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 27px;
+  }
+  .stage figcaption {
+    color: var(--navy);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── 다른 점 ── */
+  .values-section {
+    background: var(--surface-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .values {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--text);
+  }
+  .value {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--sp-6);
+    align-items: baseline;
+    padding: var(--sp-6) 0;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .value-no {
+    color: var(--navy);
+    font-size: var(--fs-h4);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .value-no span {
+    margin-left: var(--sp-2);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .value h3 {
+    font-size: var(--fs-h3);
+  }
+  .value-body {
+    color: var(--text-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* ── 현장 ── */
+  .field {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--sp-6);
+    align-items: baseline;
+    padding: var(--sp-6) var(--sp-7);
+    background: var(--navy-ink);
+    background-image: var(--grid-dark);
+    background-size: 48px 48px;
+    border-radius: var(--r-lg);
+  }
+  .field-kicker {
+    color: var(--on-dark-accent);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .field-text {
+    color: #fff;
+    font-size: var(--fs-lead);
+    line-height: var(--lh-body);
+  }
   .note {
-    margin-top: var(--sp-6);
-    max-width: 760px;
+    margin-top: var(--sp-5);
     color: var(--text-3);
-    font-size: 13px;
+    font-size: var(--fs-xs);
     line-height: 1.75;
   }
 
-  @media (max-width: 720px) {
-    .card-head {
-      flex-direction: column;
+  @media (max-width: 900px) {
+    .feature {
+      grid-template-columns: 1fr;
     }
-    .logo {
-      order: -1;
-      width: 130px;
-      margin-top: 0;
+    .card {
+      padding: var(--sp-6) var(--sp-5);
+    }
+    .stage {
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+    }
+    .phone {
+      width: min(100%, 220px);
+    }
+    .value {
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+    }
+    .field {
+      grid-template-columns: 1fr;
+      gap: var(--sp-3);
+      padding: var(--sp-6) var(--sp-5);
     }
   }
 </style>

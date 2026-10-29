@@ -103,7 +103,9 @@ export const ipTotals = {
 /** 선정 · 파트너십 — 엠블럼 상패로 보여준다. */
 export interface Honor {
   key: string;
-  emblem: 'laurel' | 'seal';
+  emblem: 'medal' | 'laurel' | 'seal';
+  /** 맨 위 전체 폭으로 크게 보여줄 상패 */
+  featured?: boolean;
   /** 엠블럼 가운데 새기는 짧은 표기 */
   mark: string;
   org: string;
@@ -113,6 +115,16 @@ export interface Honor {
 }
 
 export const honors: Honor[] = [
+  {
+    key: 'wellness-makers',
+    emblem: 'medal',
+    featured: true,
+    mark: '대상',
+    org: '대전광역시',
+    title: '장대 웰니스 메이커스 대상 수상',
+    sub: '1위 수상 후 대전시와 함께 지역 시민을 위한 혈당 관리 프로그램을 운영하고 있습니다.',
+    date: '2026.10',
+  },
   {
     key: 'startup-academy',
     emblem: 'laurel',

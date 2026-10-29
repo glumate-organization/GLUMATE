@@ -5,7 +5,7 @@
 import PipeDiagram from './PipeDiagram.astro';
 
 interface Props {
-  items: { en: string; title: string; desc: string }[];
+  items: { en: string; title: string; desc: string; points?: string[] }[];
 }
 const { items } = Astro.props;
 const no = (i: number) => String(i + 1).padStart(2, '0');
@@ -22,6 +22,13 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
           </p>
           <h3>{t.title}</h3>
           <p class="step-desc">{t.desc}</p>
+          {t.points && (
+            <ul class="step-points">
+              {t.points.map((pt) => (
+                <li>{pt}</li>
+              ))}
+            </ul>
+          )}
           <div class="step-inline" aria-hidden="true">
             <PipeDiagram step={i} />
           </div>
@@ -135,11 +142,11 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
     transform: scaleY(var(--progress, 1));
   }
   .step {
-    min-height: 52vh;
+    min-height: 44vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: var(--sp-7) 0 var(--sp-7) var(--sp-7);
+    padding: var(--sp-6) 0 var(--sp-6) var(--sp-7);
     transition: opacity 0.5s var(--ease);
   }
   .step-en {
@@ -157,10 +164,15 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
     letter-spacing: 0.04em;
     font-variant-numeric: tabular-nums;
   }
+  /* 첫 단계는 위를 비우지 않고 바로 시작한다 */
+  .step:first-child {
+    justify-content: flex-start;
+    padding-top: 0;
+  }
   .step h3 {
     margin-top: var(--sp-3);
-    font-size: var(--fs-h2);
-    letter-spacing: -0.04em;
+    font-size: var(--fs-h3);
+    letter-spacing: -0.035em;
   }
   .step-desc {
     margin-top: var(--sp-4);
@@ -168,6 +180,23 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
     color: var(--text-2);
     font-size: var(--fs-lead);
     line-height: var(--lh-body);
+  }
+  .step-points {
+    list-style: none;
+    margin: var(--sp-4) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+  .step-points li {
+    padding: 5px 12px;
+    border: 1px solid var(--navy-line);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--navy);
+    font-size: var(--fs-xs);
+    font-weight: 600;
   }
   .step-inline {
     display: none;
@@ -177,6 +206,7 @@ const no = (i: number) => String(i + 1).padStart(2, '0');
   .stage {
     position: sticky;
     top: calc(var(--nav-h) + var(--sp-7));
+    margin-top: 0;
   }
   .stage-frame {
     background-color: var(--surface);
